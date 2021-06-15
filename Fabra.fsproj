@@ -10,4 +10,16 @@
     <Compile Include="Label.fs" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>Fabra</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Rob Slavin</Authors>
+    <Company>Rob Slavin</Company>
+    <PackageTags>fsharp;ZPL</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/auslavs/Fabra</RepositoryUrl>
+  </PropertyGroup>
+
 </Project>
