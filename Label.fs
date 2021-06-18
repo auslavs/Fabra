@@ -71,6 +71,33 @@ type Label =
     |> LabelElement.Barcode
 
   /// <summary>
+  /// Data Matrix Bar Code (^BX)
+  /// 
+  /// The ^BX command creates a two-dimensional matrix symbology made up of square modules arranged within a perimeter finder pattern.
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Dimensional height of individual symbol elements</param>
+  /// <param name="s">Quality level</param>
+  /// <param name="c">Columns to encode</param>
+  /// <param name="r">Rows to encode</param>
+  /// <param name="f">Format ID (0 to 6) — not used with quality set at 200</param>
+  /// <param name="g">Escape sequence control character</param>
+  /// <param name="a">Aspect ratio</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns></returns>
+  static member inline BX o h s c r f g a (fd: string) =
+    { Orientation = o
+      DimensionalHeight = h
+      QualityLevel = s
+      ColumnsToEncode = c
+      RowsToEncode = r
+      FormatId = f
+      EscapeSequenceControlCharacter = g
+      AspectRatio = a
+      Data = (FieldData.FieldData fd) }
+    |> LabelElement.DataMatrixBarcode
+
+  /// <summary>
   /// Field Origin (^FO)
   ///
   /// The ^FO command sets a field origin, relative to the label home (^LH) position.
@@ -132,6 +159,9 @@ type Label =
                   sb.AppendLine(txt.ToString()) |> ignore
                   loop tail sb
               | Barcode bc ->
+                  sb.AppendLine(bc.ToString()) |> ignore
+                  loop tail sb
+              | DataMatrixBarcode bc ->
                   sb.AppendLine(bc.ToString()) |> ignore
                   loop tail sb
               | FieldOrigin fo ->
