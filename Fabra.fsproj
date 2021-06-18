@@ -12,7 +12,7 @@
 
   <PropertyGroup>
     <PackageId>Fabra</PackageId>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Authors>Rob Slavin</Authors>
     <Company>Rob Slavin</Company>
     <PackageTags>fsharp;ZPL</PackageTags>
