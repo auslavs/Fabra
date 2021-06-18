@@ -98,6 +98,50 @@ type Barcode =
     override x.ToString() =
         $"^BC{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.UCC_CheckDigit}{x.Data}"
 
+/// Data Matrix Quality Level
+type DataMatrixQualityLevel=
+  | QL0
+  | QL50
+  | QL80
+  | QL100
+  | QL140
+  | QL200
+  override x.ToString() =
+    match x with
+    | QL0   -> "0"
+    | QL50  -> "50"
+    | QL80  -> "80"
+    | QL100 -> "100"
+    | QL140 -> "140"
+    | QL200 -> "200"
+
+/// Data Matrix Aspect Ratio
+type DataMatrixAspectRatio=
+  | Square
+  | Rectangular
+  override x.ToString() =
+    match x with
+    | Square   -> "1"
+    | Rectangular  -> "2"
+
+/// Data Matrix Bar Code (^BX)
+type DataMatrixBarcode =
+    { Orientation: Orientation
+      DimensionalHeight: int
+      QualityLevel: DataMatrixQualityLevel
+      ColumnsToEncode: int option
+      RowsToEncode: int option
+      FormatId: int option
+      EscapeSequenceControlCharacter: string option
+      AspectRatio: DataMatrixAspectRatio option
+      Data: FieldData }
+    override x.ToString() =
+        let inline (+.) s1 s2 = 
+          match s2 with
+          | Some x -> s1 + $",{x}"
+          | None -> s1 + ","
+        $"^BX{x.Orientation},{x.DimensionalHeight},{x.QualityLevel}" +. x.ColumnsToEncode  +. x.RowsToEncode +. x.FormatId +. x.EscapeSequenceControlCharacter +. x.AspectRatio + $"{x.Data}"
+
 /// Field Origin (^FO)
 type FieldOrigin =
     { X_Axis: int
@@ -132,6 +176,7 @@ type LabelElement =
     | FieldData of FieldData
     | Text of Text
     | Barcode of Barcode
+    | DataMatrixBarcode of DataMatrixBarcode
     | FieldOrigin of FieldOrigin
     | GraphicBox of GraphicBox
     | BarcodeFieldDefault of BarcodeFieldDefault
