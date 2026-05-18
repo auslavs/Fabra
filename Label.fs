@@ -32,6 +32,12 @@ module internal Render =
                 | BarcodeFieldDefault bfd ->
                     sb.AppendLine(bfd.ToString()) |> ignore
                     loop tail sb
+                | Comment cm ->
+                    sb.AppendLine(cm.ToString()) |> ignore
+                    loop tail sb
+                | LabelHome lh ->
+                    sb.AppendLine(lh.ToString()) |> ignore
+                    loop tail sb
                 | Collection co ->
                     loop (List.append co tail) sb
 
@@ -178,6 +184,33 @@ type Label =
   static member inline BY w r h =
     { Width = w; Ratio = r; Height = h }
     |> LabelElement.BarcodeFieldDefault
+
+  /// <summary>
+  /// Comment (^FX)
+  ///
+  /// The ^FX command adds a non-printing comment to a label format.
+  /// Any data after ^FX up to the next ^ or ~ command is ignored, so a
+  /// ^FS command should follow it (Fabra appends this automatically).
+  /// </summary>
+  /// <param name="c">Non-printing comment text</param>
+  /// <returns>LabelElement.Comment</returns>
+  static member inline FX c =
+    Comment.Comment c
+    |> LabelElement.Comment
+
+  /// <summary>
+  /// Label Home (^LH)
+  ///
+  /// The ^LH command sets the label home position — the reference point
+  /// for every field that follows it. The default home position is the
+  /// upper-left corner (0,0).
+  /// </summary>
+  /// <param name="x">X-axis position (in dots). Values: 0 to 32000. Default: 0</param>
+  /// <param name="y">Y-axis position (in dots). Values: 0 to 32000. Default: 0</param>
+  /// <returns>LabelElement.LabelHome</returns>
+  static member inline LH x y =
+    { LabelHome.X_Axis = x; Y_Axis = y }
+    |> LabelElement.LabelHome
 
   static member inline Collection lst = LabelElement.Collection lst
 

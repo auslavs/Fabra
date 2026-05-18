@@ -43,3 +43,13 @@ module GoldenTests =
             Assert.Contains("^BY3,2.5,10", zpl)
         finally
             CultureInfo.CurrentCulture <- original
+
+    [<Fact>]
+    let ``^FX renders a comment terminated by ^FS`` () =
+        let zpl = ZPL.render (Label [ Label.FX "setup notes" ])
+        Assert.Contains("^FXsetup notes^FS", zpl)
+
+    [<Fact>]
+    let ``^LH renders the label home position`` () =
+        let zpl = ZPL.render (Label [ Label.LH 30 60 ])
+        Assert.Contains("^LH30,60", zpl)

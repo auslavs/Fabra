@@ -180,6 +180,19 @@ type BarcodeFieldDefault =
         let ratio = x.Ratio.ToString(CultureInfo.InvariantCulture)
         $"^BY{x.Width},{ratio},{x.Height}"
 
+/// Comment (^FX)
+type Comment =
+    | Comment of string
+    override x.ToString() =
+        let (Comment str) = x
+        $"^FX{str}^FS"
+
+/// Label Home (^LH)
+type LabelHome =
+    { X_Axis: int
+      Y_Axis: int }
+    override x.ToString() = $"^LH{x.X_Axis},{x.Y_Axis}"
+
 /// A label element/command.
 /// Used for containing all label commands within a single collection/label.
 type LabelElement =
@@ -190,4 +203,6 @@ type LabelElement =
     | FieldOrigin of FieldOrigin
     | GraphicBox of GraphicBox
     | BarcodeFieldDefault of BarcodeFieldDefault
+    | Comment of Comment
+    | LabelHome of LabelHome
     | Collection of LabelElement list
