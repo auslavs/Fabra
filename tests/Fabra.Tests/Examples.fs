@@ -85,7 +85,7 @@ module Examples =
                 Label.GB w 4 4 LineColour.B 0
             ]
 
-        let private verticleLine x y h =
+        let private verticalLine x y h =
             Label.Collection [
                 Label.FO x y Left
                 Label.GB 4 h 4 LineColour.B 0
@@ -115,7 +115,7 @@ module Examples =
                 line 60 771 1060
                 text 60 783 36 48 "SIGNATURE ON DELIVERY REQUIRED"
 
-                verticleLine 789 771 103
+                verticalLine 789 771 103
                 text 801 783 36 36 "CON NO"
                 text 801 831 36 36 "PARCEL"
                 line 60 876 1060
@@ -129,7 +129,7 @@ module Examples =
 
                 text 60 1452 48 60 "Sender:"
 
-                verticleLine 732 1440 259
+                verticalLine 732 1440 259
 
                 text 741 1452 48 60 "Order ID:"
             ]

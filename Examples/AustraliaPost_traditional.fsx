@@ -3,8 +3,8 @@
 /// NOTE: This label has been designed for use with a 300 dpi printer
 
 /// Use nuget package, or local version
-#r "nuget: Fabra"
-//#r "../bin/Debug/netstandard2.0/Fabra.dll"
+//#r "nuget: Fabra"
+#r "../bin/Debug/netstandard2.0/Fabra.dll"
 
 /// Increase the number of characters printed to the console
 fsi.PrintWidth <- 3000;;
@@ -25,7 +25,7 @@ let line x y w =
     Label.GB w 4 4 LineColour.B 0
   ]
 
-let verticleLine x y h =
+let verticalLine x y h =
   Label.Collection [
     Label.FO x y Left
     Label.GB 4 h 4 LineColour.B 0
@@ -58,7 +58,7 @@ let template =
     line 60 771 1060
     text 60 783 36 48 "SIGNATURE ON DELIVERY REQUIRED"
 
-    verticleLine 789 771 103
+    verticalLine 789 771 103
     text 801 783 36 36 "CON NO"
     text 801 831 36 36 "PARCEL"
     line 60 876 1060
@@ -72,7 +72,7 @@ let template =
 
     text 60 1452 48 60 "Sender:"
 
-    verticleLine 732 1440 259
+    verticalLine 732 1440 259
 
     text 741 1452 48 60 "Order ID:"
 

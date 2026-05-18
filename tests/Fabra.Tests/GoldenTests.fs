@@ -2,6 +2,7 @@ namespace Fabra.Tests
 
 open System
 open System.IO
+open System.Globalization
 open Xunit
 open Fabra
 
@@ -27,3 +28,18 @@ module GoldenTests =
     [<Fact>]
     let ``Australia Post traditional label renders to its golden ZPL`` () =
         Assert.Equal(golden "AustraliaPost_traditional.zpl", normalize (ZPL.render Examples.AustraliaPost.label))
+
+    [<Fact>]
+    let ``Label.ToString() still renders the golden ZPL`` () =
+        Assert.Equal(golden "GS1.zpl", normalize (string Examples.GS1.label))
+        Assert.Equal(golden "AustraliaPost_traditional.zpl", normalize (string Examples.AustraliaPost.label))
+
+    [<Fact>]
+    let ``^BY ratio renders with a dot under a comma-decimal culture`` () =
+        let original = CultureInfo.CurrentCulture
+        try
+            CultureInfo.CurrentCulture <- CultureInfo.GetCultureInfo("de-DE")
+            let zpl = ZPL.render (Label [ Label.BY 3 2.5 10 ])
+            Assert.Contains("^BY3,2.5,10", zpl)
+        finally
+            CultureInfo.CurrentCulture <- original

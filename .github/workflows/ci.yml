@@ -24,3 +24,6 @@ jobs:
 
       - name: Test
         run: dotnet test Fabra.sln -c Release --no-build
+
+      - name: Pack
+        run: dotnet pack Fabra.fsproj -c Release --no-build

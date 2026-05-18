@@ -5,8 +5,8 @@
 /// NOTE: This label has been designed for use with a 300 dpi printer
 
 /// Use nuget package, or local version
-///#r "nuget: Fabra"
-///#r @"..\bin\Debug\net5.0\Fabra.dll"
+//#r "nuget: Fabra"
+#r "../bin/Debug/netstandard2.0/Fabra.dll"
 
 /// Increase the number of characters printed to the console
 fsi.PrintWidth <- 2000;;
