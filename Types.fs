@@ -1,5 +1,7 @@
 namespace Fabra
 
+open System.Globalization
+
 /// Barcode orientation
 type Orientation =
   /// Normal
@@ -96,7 +98,7 @@ type Barcode =
       Mode: Mode
       Data: FieldData }
     override x.ToString() =
-        $"^BC{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.UCC_CheckDigit}{x.Data}"
+        $"^BC{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.UCC_CheckDigit},{x.Mode}{x.Data}"
 
 /// Data Matrix Quality Level
 type DataMatrixQualityLevel=
@@ -168,7 +170,11 @@ type BarcodeFieldDefault =
       Ratio: float
       //Barcode height
       Height: int }
-    override x.ToString() = $"^BY{x.Width},{x.Ratio},{x.Height}"
+    override x.ToString() =
+        // Ratio is rendered with the invariant culture so a comma decimal
+        // separator can never be mistaken for a ZPL field separator.
+        let ratio = x.Ratio.ToString(CultureInfo.InvariantCulture)
+        $"^BY{x.Width},{ratio},{x.Height}"
 
 /// A label element/command.
 /// Used for containing all label commands within a single collection/label.

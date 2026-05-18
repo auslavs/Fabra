@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
@@ -12,14 +12,22 @@
 
   <PropertyGroup>
     <PackageId>Fabra</PackageId>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
+    <Title>Fabra</Title>
     <Authors>Rob Slavin</Authors>
     <Company>Rob Slavin</Company>
-    <PackageTags>fsharp;ZPL</PackageTags>
+    <Description>An F# DSL for generating Zebra Programming Language (ZPL) labels.</Description>
+    <PackageTags>fsharp;ZPL;zebra;label;barcode</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/auslavs/Fabra</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/auslavs/Fabra</RepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
 </Project>

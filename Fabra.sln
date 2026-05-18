@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fabra", "Fabra.fsproj", "{CE05CBBD-0FA5-4A04-9BBD-86F4DDEDBA43}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C10FE288-D130-43BA-885A-A77E594DDEAD}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fabra.Tests", "tests\Fabra.Tests\Fabra.Tests.fsproj", "{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE05CBBD-0FA5-4A04-9BBD-86F4DDEDBA43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE05CBBD-0FA5-4A04-9BBD-86F4DDEDBA43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE05CBBD-0FA5-4A04-9BBD-86F4DDEDBA43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE05CBBD-0FA5-4A04-9BBD-86F4DDEDBA43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1} = {C10FE288-D130-43BA-885A-A77E594DDEAD}
+	EndGlobalSection
+EndGlobal
