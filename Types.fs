@@ -1,6 +1,9 @@
 namespace Fabra
 
+open System.Globalization
+
 /// Barcode orientation
+[<RequireQualifiedAccess>]
 type Orientation =
   /// Normal
   | N
@@ -12,12 +15,13 @@ type Orientation =
   | B
   override x.ToString() =
     match x with
-    | N -> "N"
-    | R -> "R"
-    | I -> "I"
-    | B -> "B"
+    | Orientation.N -> "N"
+    | Orientation.R -> "R"
+    | Orientation.I -> "I"
+    | Orientation.B -> "B"
 
 /// Barcode mode
+[<RequireQualifiedAccess>]
 type Mode =
     /// No selected mode
     | N
@@ -29,12 +33,13 @@ type Mode =
     | D
     override x.ToString() =
         match x with
-        | N -> "N"
-        | U -> "U"
-        | A -> "A"
-        | D -> "D"
+        | Mode.N -> "N"
+        | Mode.U -> "U"
+        | Mode.A -> "A"
+        | Mode.D -> "D"
 
 /// Generic Yes or No value for when a ZPL command requires a Y or N argument
+[<RequireQualifiedAccess>]
 type YesNo =
     /// Yes
     | Y
@@ -42,8 +47,8 @@ type YesNo =
     | N
     override x.ToString() =
         match x with
-        | Y -> "Y"
-        | N -> "N"
+        | YesNo.Y -> "Y"
+        | YesNo.N -> "N"
 
 /// Justification
 type Justification =
@@ -60,6 +65,7 @@ type Justification =
       | Justified -> "2"
 
 /// Line Colour
+[<RequireQualifiedAccess>]
 type LineColour =
   /// Black
   | B
@@ -67,8 +73,8 @@ type LineColour =
   | W
   override x.ToString() =
     match x with
-    | B -> "B"
-    | W -> "W"
+    | LineColour.B -> "B"
+    | LineColour.W -> "W"
 
 /// Field Data (^FD)
 type FieldData =
@@ -96,7 +102,7 @@ type Barcode =
       Mode: Mode
       Data: FieldData }
     override x.ToString() =
-        $"^BC{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.UCC_CheckDigit}{x.Data}"
+        $"^BC{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.UCC_CheckDigit},{x.Mode}{x.Data}"
 
 /// Data Matrix Quality Level
 type DataMatrixQualityLevel=
@@ -168,7 +174,11 @@ type BarcodeFieldDefault =
       Ratio: float
       //Barcode height
       Height: int }
-    override x.ToString() = $"^BY{x.Width},{x.Ratio},{x.Height}"
+    override x.ToString() =
+        // Ratio is rendered with the invariant culture so a comma decimal
+        // separator can never be mistaken for a ZPL field separator.
+        let ratio = x.Ratio.ToString(CultureInfo.InvariantCulture)
+        $"^BY{x.Width},{ratio},{x.Height}"
 
 /// A label element/command.
 /// Used for containing all label commands within a single collection/label.

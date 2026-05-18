@@ -2,6 +2,45 @@
 
 open System.Text
 
+module internal Render =
+
+    /// Renders a list of label elements wrapped in the ^XA/^XZ format markers.
+    let label (elements: LabelElement list) : string =
+        let rec loop (input: LabelElement list) (sb: StringBuilder) =
+            match input with
+            | [] -> sb
+            | head :: tail ->
+                match head with
+                | FieldData fd ->
+                    sb.AppendLine(fd.ToString()) |> ignore
+                    loop tail sb
+                | Text txt ->
+                    sb.AppendLine(txt.ToString()) |> ignore
+                    loop tail sb
+                | Barcode bc ->
+                    sb.AppendLine(bc.ToString()) |> ignore
+                    loop tail sb
+                | DataMatrixBarcode bc ->
+                    sb.AppendLine(bc.ToString()) |> ignore
+                    loop tail sb
+                | FieldOrigin fo ->
+                    sb.AppendLine(fo.ToString()) |> ignore
+                    loop tail sb
+                | GraphicBox gb ->
+                    sb.AppendLine(gb.ToString()) |> ignore
+                    loop tail sb
+                | BarcodeFieldDefault bfd ->
+                    sb.AppendLine(bfd.ToString()) |> ignore
+                    loop tail sb
+                | Collection co ->
+                    loop (List.append co tail) sb
+
+        let sb = StringBuilder()
+        sb.AppendLine("^XA") |> ignore
+        loop elements sb |> ignore
+        sb.AppendLine("^XZ") |> ignore
+        sb.ToString()
+
 /// <summary>
 /// The base Label type for the ZPL label.
 /// This is a list of the ZPL commands which will make up the label.
@@ -143,43 +182,20 @@ type Label =
   static member inline Collection lst = LabelElement.Collection lst
 
   /// <summary>
-  /// Gernerates the label in ZPL format
+  /// Generates the label in ZPL format.
   /// </summary>
   /// <returns>ZPL string</returns>
   override x.ToString() =
-      let rec loop (input: LabelElement list) (sb: StringBuilder) =
-          match input with
-          | [] -> sb
-          | head :: tail ->
-              match head with
-              | FieldData fd ->
-                  sb.AppendLine(fd.ToString()) |> ignore
-                  loop tail sb
-              | Text txt ->
-                  sb.AppendLine(txt.ToString()) |> ignore
-                  loop tail sb
-              | Barcode bc ->
-                  sb.AppendLine(bc.ToString()) |> ignore
-                  loop tail sb
-              | DataMatrixBarcode bc ->
-                  sb.AppendLine(bc.ToString()) |> ignore
-                  loop tail sb
-              | FieldOrigin fo ->
-                  sb.AppendLine(fo.ToString()) |> ignore
-                  loop tail sb
-              | GraphicBox gb ->
-                  sb.AppendLine(gb.ToString()) |> ignore
-                  loop tail sb
-              | BarcodeFieldDefault bfd ->
-                  sb.AppendLine(bfd.ToString()) |> ignore
-                  loop tail sb
-              | Collection co ->
-                  let newInput = tail |> List.append co
-                  loop newInput sb
-
       let (Label lst) = x
-      let sb = new StringBuilder()
-      sb.AppendLine("^XA") |> ignore
-      loop lst sb |> ignore
-      sb.AppendLine("^XZ") |> ignore
-      sb.ToString()
+      Render.label lst
+
+/// Functions for rendering a <see cref="T:Fabra.Label"/> to ZPL.
+module ZPL =
+
+  /// <summary>
+  /// Renders a label to its ZPL string representation.
+  /// </summary>
+  /// <param name="label">The label to render.</param>
+  /// <returns>ZPL string</returns>
+  let render (Label elements) : string =
+    Render.label elements
