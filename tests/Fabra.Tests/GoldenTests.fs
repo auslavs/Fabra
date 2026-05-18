@@ -3,6 +3,7 @@ namespace Fabra.Tests
 open System
 open System.IO
 open Xunit
+open Fabra
 
 /// Golden-file tests: render the example labels and assert they match the
 /// committed .zpl files in /Examples. These lock the exact ZPL output so any
@@ -21,8 +22,8 @@ module GoldenTests =
 
     [<Fact>]
     let ``GS1 logistics label renders to its golden ZPL`` () =
-        Assert.Equal(golden "GS1.zpl", normalize (string Examples.GS1.label))
+        Assert.Equal(golden "GS1.zpl", normalize (ZPL.render Examples.GS1.label))
 
     [<Fact>]
     let ``Australia Post traditional label renders to its golden ZPL`` () =
-        Assert.Equal(golden "AustraliaPost_traditional.zpl", normalize (string Examples.AustraliaPost.label))
+        Assert.Equal(golden "AustraliaPost_traditional.zpl", normalize (ZPL.render Examples.AustraliaPost.label))

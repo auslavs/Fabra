@@ -19,14 +19,14 @@ let barcode_GS1Multi x y content =
   Label.Collection [
     Label.BY 3 2.0 10
     Label.FO x y Left
-    Label.BC Orientation.N 378 N N N Mode.A content
+    Label.BC Orientation.N 378 YesNo.N YesNo.N YesNo.N Mode.A content
   ]
 
 let barcode_SSCC x y content =
   Label.Collection [
     Label.BY 6 2.0 10
     Label.FO x y Left
-    Label.BC Orientation.N 354 N N N Mode.A content
+    Label.BC Orientation.N 354 YesNo.N YesNo.N YesNo.N Mode.A content
   ]
 
 let text x y h w content =
@@ -76,4 +76,4 @@ Label [
   text 219 1629 72 72 "(00)123456789012345678"
   
   ]
-|> string /// output the ZPL string to the console
+|> ZPL.render /// output the ZPL string to the console

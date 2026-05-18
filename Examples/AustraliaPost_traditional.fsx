@@ -35,7 +35,7 @@ let barcode content =
   Label.Collection [
     Label.BY 3 2.0 10
     Label.FO 93 939 Left
-    Label.BC Orientation.N 261 N N N Mode.A content
+    Label.BC Orientation.N 261 YesNo.N YesNo.N YesNo.N Mode.A content
   ]
 
 let dataMatrix x y content =
@@ -149,4 +149,4 @@ Label [
 
   template
   ]
-|> string /// output the ZPL string to the console
+|> ZPL.render /// output the ZPL string to the console

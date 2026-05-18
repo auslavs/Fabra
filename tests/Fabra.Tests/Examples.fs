@@ -14,14 +14,14 @@ module Examples =
             Label.Collection [
                 Label.BY 3 2.0 10
                 Label.FO x y Left
-                Label.BC Orientation.N 378 N N N Mode.A content
+                Label.BC Orientation.N 378 YesNo.N YesNo.N YesNo.N Mode.A content
             ]
 
         let private barcode_SSCC x y content =
             Label.Collection [
                 Label.BY 6 2.0 10
                 Label.FO x y Left
-                Label.BC Orientation.N 354 N N N Mode.A content
+                Label.BC Orientation.N 354 YesNo.N YesNo.N YesNo.N Mode.A content
             ]
 
         let private text x y h w content =
@@ -95,7 +95,7 @@ module Examples =
             Label.Collection [
                 Label.BY 3 2.0 10
                 Label.FO 93 939 Left
-                Label.BC Orientation.N 261 N N N Mode.A content
+                Label.BC Orientation.N 261 YesNo.N YesNo.N YesNo.N Mode.A content
             ]
 
         let private dataMatrix x y content =
