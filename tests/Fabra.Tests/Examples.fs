@@ -27,7 +27,7 @@ module Examples =
         let private text x y h w content =
             Label.Collection [
                 Label.FO x y Left
-                Label.Text Orientation.N h w content
+                Label.Text (Font '0') Orientation.N h w content
             ]
 
         let private line x y w =
@@ -76,7 +76,7 @@ module Examples =
         let private text x y h w content =
             Label.Collection [
                 Label.FO x y Left
-                Label.Text Orientation.N h w content
+                Label.Text (Font '0') Orientation.N h w content
             ]
 
         let private line x y w =

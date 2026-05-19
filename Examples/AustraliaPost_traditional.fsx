@@ -16,7 +16,7 @@ open Fabra
 let text x y h w content =
   Label.Collection [
     Label.FO x y Left
-    Label.Text Orientation.N h w content
+    Label.Text (Font '0') Orientation.N h w content
   ]
 
 let line x y w =

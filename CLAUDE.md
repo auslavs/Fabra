@@ -46,7 +46,7 @@ for simple static labels. Planned additions, ordered easy → hard:
 
 - [x] `^FX` — Comment. New `Comment` type; renders `^FX{text}^FS`.
 - [x] `^LH` — Label Home. New `LabelHome` record (x, y); renders `^LH{x},{y}`.
-- [ ] `^A` font selector — the `Text` type currently hardcodes font `0`
+- [x] `^A` font selector — the `Text` type currently hardcodes font `0`
       (`^A0`). Add a font parameter (`A`–`Z`, `0`–`9`) so other resident
       fonts can be selected. Breaking change to the `Label.Text` factory.
 - [ ] `^FB` — Field Block (word-wrapped, multi-line text). New `FieldBlock`

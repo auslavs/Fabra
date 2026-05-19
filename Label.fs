@@ -71,13 +71,15 @@ type Label =
   /// The font specified by ^A is used only once for that ^FD entry.
   /// If a value for ^A is not specified again, the default ^CF font is used for the next ^FD entry.
   /// </summary>
+  /// <param name="f">Font identifier (A-Z or 0-9)</param>
   /// <param name="o">Orientation</param>
   /// <param name="h">Character Height (in dots)</param>
   /// <param name="w">Width (in dots)</param>
   /// <param name="fd">Field Data</param>
   /// <returns>LabelElement.Text</returns>
-  static member inline Text o h w (fd: string) =
-    { Orientation = o
+  static member inline Text f o h w (fd: string) =
+    { Font = f
+      Orientation = o
       Height = h
       Width = w
       Data = (FieldData.FieldData fd) }
