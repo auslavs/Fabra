@@ -31,6 +31,14 @@ Each command follows the same pattern:
 4. Add a branch to the `Render.label` loop in `Label.fs`.
 5. Add a test in `tests/Fabra.Tests`.
 
+## Pull requests
+
+- Always request a GitHub Copilot review on a new pull request.
+- Evaluate each Copilot comment on its merits. Reject suggestions that
+  aren't useful or are incorrect, replying to the thread with a brief
+  reason (cite the ZPL spec where relevant). Apply the useful ones and
+  reply to the thread confirming the change.
+
 ## ZPL command roadmap
 
 Fabra implements roughly 10 of the ~200 ZPL commands — the subset needed

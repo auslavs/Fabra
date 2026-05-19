@@ -53,3 +53,12 @@ module GoldenTests =
     let ``^LH renders the label home position`` () =
         let zpl = ZPL.render (Label [ Label.LH 30 60 ])
         Assert.Contains("^LH30,60", zpl)
+
+    [<Fact>]
+    let ``^FX comment renders as its own statement among fields`` () =
+        let zpl =
+            ZPL.render (Label [
+                Label.FO 60 60 Justification.Left
+                Label.FX "note"
+                Label.Text Orientation.N 30 30 "hi" ])
+        Assert.Equal("^XA\n^FO60,60,0\n^FXnote^FS\n^A0N,30,30^FDhi^FS\n^XZ", normalize zpl)

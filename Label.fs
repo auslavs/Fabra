@@ -189,8 +189,10 @@ type Label =
   /// Comment (^FX)
   ///
   /// The ^FX command adds a non-printing comment to a label format.
-  /// Any data after ^FX up to the next ^ or ~ command is ignored, so a
-  /// ^FS command should follow it (Fabra appends this automatically).
+  /// Any data after ^FX up to the next ^ or ~ command is ignored. The ZPL
+  /// spec terminates ^FX with ^FS, which Fabra appends automatically; place
+  /// a comment between fields rather than between a ^FO and its field
+  /// content, since the trailing ^FS closes the current field.
   /// </summary>
   /// <param name="c">Non-printing comment text</param>
   /// <returns>LabelElement.Comment</returns>
