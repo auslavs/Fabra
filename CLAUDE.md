@@ -57,3 +57,13 @@ for simple static labels. Planned additions, ordered easy → hard:
 - [ ] `^GF` — Graphic Field (bitmap images). Largest item; needs an
       image → monochrome-bitmap encoder. Phase 1: accept pre-encoded
       `^GFA` ASCII-hex data. Phase 2: add the image-to-bitmap converter.
+
+## Open design items
+
+- **Input validation.** Fabra performs no validation anywhere — numeric
+  ranges (`^FO`, `^GB`, `^BX`, …) and `^FD`/`^A` content trust the caller,
+  with valid ranges only documented in XML docs. A Copilot review of the
+  `^A` font selector asked whether the `Font` identifier (`A`–`Z`, `0`–`9`)
+  should be validated. Undecided: keep trusting the caller, add validating
+  smart constructors per type, or adopt library-wide validation. If
+  adopted, apply it consistently across all commands rather than ad hoc.
