@@ -35,6 +35,9 @@ module internal Render =
                 | GraphicBox gb ->
                     sb.AppendLine(gb.ToString()) |> ignore
                     loop tail sb
+                | GraphicField gf ->
+                    sb.AppendLine(gf.ToString()) |> ignore
+                    loop tail sb
                 | BarcodeFieldDefault bfd ->
                     sb.AppendLine(bfd.ToString()) |> ignore
                     loop tail sb
@@ -232,6 +235,26 @@ type Label =
       LineColour = c
       Rounding = r }
     |> LabelElement.GraphicBox
+
+  /// <summary>
+  /// Graphic Field (^GF)
+  ///
+  /// The ^GF command lets you download a graphic image and print it as part
+  /// of a label. Phase 1 accepts pre-encoded ASCII-hex (^GFA) data: the
+  /// caller supplies the byte counts and the hex string, which is emitted
+  /// verbatim. (An image-to-bitmap encoder is a future addition.)
+  /// </summary>
+  /// <param name="b">Binary byte count — total bytes to be transmitted; for ASCII-hex data this equals the graphic field count. Values: 1 to 99999</param>
+  /// <param name="c">Graphic field count — total bytes comprising the image (bytes per row × number of rows). Values: 1 to 99999</param>
+  /// <param name="d">Bytes per row — number of bytes in one row of the image. Values: 1 to 99999</param>
+  /// <param name="data">Pre-encoded ASCII-hex graphic data</param>
+  /// <returns>LabelElement.GraphicField</returns>
+  static member inline GF b c d (data: string) =
+    { GraphicField.BinaryByteCount = b
+      GraphicFieldCount = c
+      BytesPerRow = d
+      Data = data }
+    |> LabelElement.GraphicField
 
   /// Bar Code Field Default (^BY)
   ///

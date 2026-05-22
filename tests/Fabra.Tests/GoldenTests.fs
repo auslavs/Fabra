@@ -87,3 +87,8 @@ module GoldenTests =
     let ``^BQ repeats the error-correction level in the ^FD prefix`` () =
         let zpl = ZPL.render (Label [ Label.BQ Orientation.N 2 4 QrErrorCorrection.H 5 "data" ])
         Assert.Contains("^BQN,2,4,H,5^FDHA,data^FS", zpl)
+
+    [<Fact>]
+    let ``^GF renders pre-encoded ASCII-hex graphic data`` () =
+        let zpl = ZPL.render (Label [ Label.GF 8 8 2 "FF00FF00FF00FF00" ])
+        Assert.Contains("^GFA,8,8,2,FF00FF00FF00FF00^FS", zpl)

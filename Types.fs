@@ -236,6 +236,17 @@ type GraphicBox =
     override x.ToString() =
         $"^GB{x.Width},{x.Height},{x.Thickness},{x.LineColour},{x.Rounding}^FS"
 
+/// Graphic Field (^GF)
+/// Phase 1: pre-encoded ASCII-hex (^GFA) bitmap data supplied by the
+/// caller. The data string is emitted verbatim.
+type GraphicField =
+    { BinaryByteCount: int
+      GraphicFieldCount: int
+      BytesPerRow: int
+      Data: string }
+    override x.ToString() =
+        $"^GFA,{x.BinaryByteCount},{x.GraphicFieldCount},{x.BytesPerRow},{x.Data}^FS"
+
 /// Bar Code Field Default (^BY)
 type BarcodeFieldDefault =
     {
@@ -275,6 +286,7 @@ type LabelElement =
     | QrCode of QrCode
     | FieldOrigin of FieldOrigin
     | GraphicBox of GraphicBox
+    | GraphicField of GraphicField
     | BarcodeFieldDefault of BarcodeFieldDefault
     | Comment of Comment
     | LabelHome of LabelHome
