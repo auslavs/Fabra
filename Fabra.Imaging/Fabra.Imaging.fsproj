@@ -23,7 +23,7 @@
     <Title>Fabra.Imaging</Title>
     <Authors>Rob Slavin</Authors>
     <Company>Rob Slavin</Company>
-    <Description>Image-to-ZPL (^GF) conversion for Fabra, powered by SixLabors.ImageSharp.</Description>
+    <Description>Image-to-ZPL (^GF) conversion for Fabra, powered by SixLabors.ImageSharp. Note: Fabra.Imaging's own code is MIT-licensed, but it depends on SixLabors.ImageSharp 3.x, which is distributed under the Six Labors Split License (free for open-source and personal use; some commercial use requires a paid licence).</Description>
     <PackageTags>fsharp;ZPL;zebra;label;image;graphic</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
