@@ -67,3 +67,16 @@ for simple static labels. Planned additions, ordered easy → hard:
   should be validated. Undecided: keep trusting the caller, add validating
   smart constructors per type, or adopt library-wide validation. If
   adopted, apply it consistently across all commands rather than ad hoc.
+
+- **Feliz-style props API.** Commands currently take positional arguments
+  via `static member` factories (e.g.
+  `Label.BC Orientation.N 378 YesNo.N YesNo.N YesNo.N Mode.A data`), which
+  reads poorly for commands with many parameters or defaults. An
+  alternative is a Feliz-style list of props — e.g.
+  `Label.qr [ qr.model 2; qr.magnification 10; qr.data "…" ]` — built from
+  a per-command prop DU folded onto a defaulted record (no need for
+  Feliz's erased-type machinery). Trades the compile-time "all required
+  fields set" guarantee for default-backed optional props, and would be a
+  library-wide change applied consistently rather than per command (ties
+  into the validation item above). Worth a throwaway spike on one command
+  before committing. Keep the current positional style until then.
