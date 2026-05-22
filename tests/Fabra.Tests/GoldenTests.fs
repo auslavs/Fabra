@@ -67,3 +67,13 @@ module GoldenTests =
     let ``^A renders the selected font`` () =
         let zpl = ZPL.render (Label [ Label.Text (Font 'A') Orientation.N 30 20 "hi" ])
         Assert.Contains("^AAN,30,20^FDhi^FS", zpl)
+
+    [<Fact>]
+    let ``^FB renders a field block before its field data`` () =
+        let zpl = ZPL.render (Label [ Label.FB 400 3 0 FieldBlockJustification.Left 0 "wrapped text" ])
+        Assert.Contains("^FB400,3,0,L,0^FDwrapped text^FS", zpl)
+
+    [<Fact>]
+    let ``^FB justification renders the ZPL letter`` () =
+        let zpl = ZPL.render (Label [ Label.FB 200 2 5 FieldBlockJustification.Centre 10 "x" ])
+        Assert.Contains("^FB200,2,5,C,10^FDx^FS", zpl)

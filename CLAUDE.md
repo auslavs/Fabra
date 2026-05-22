@@ -49,7 +49,7 @@ for simple static labels. Planned additions, ordered easy → hard:
 - [x] `^A` font selector — the `Text` type currently hardcodes font `0`
       (`^A0`). Add a font parameter (`A`–`Z`, `0`–`9`) so other resident
       fonts can be selected. Breaking change to the `Label.Text` factory.
-- [ ] `^FB` — Field Block (word-wrapped, multi-line text). New `FieldBlock`
+- [x] `^FB` — Field Block (word-wrapped, multi-line text). New `FieldBlock`
       type (width, max lines, line spacing, justification, hanging indent);
       a modifier emitted before the `^FD` it applies to.
 - [ ] `^BQ` — QR Code. New `QrCode` type (orientation, model,
