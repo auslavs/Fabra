@@ -64,6 +64,24 @@ type Justification =
       | Right -> "1"
       | Justified -> "2"
 
+/// Text justification for the Field Block (^FB) command.
+[<RequireQualifiedAccess>]
+type FieldBlockJustification =
+  /// Left
+  | Left
+  /// Centre
+  | Centre
+  /// Right
+  | Right
+  /// Justified
+  | Justified
+  override x.ToString() =
+      match x with
+      | FieldBlockJustification.Left -> "L"
+      | FieldBlockJustification.Centre -> "C"
+      | FieldBlockJustification.Right -> "R"
+      | FieldBlockJustification.Justified -> "J"
+
 /// Line Colour
 [<RequireQualifiedAccess>]
 type LineColour =
@@ -100,6 +118,18 @@ type Text =
       Data: FieldData }
     override x.ToString() =
         $"^A{x.Font}{x.Orientation},{x.Height},{x.Width}{x.Data}"
+
+/// Field Block (^FB)
+/// A modifier emitted immediately before the ^FD it word-wraps.
+type FieldBlock =
+    { Width: int
+      MaxLines: int
+      LineSpacing: int
+      Justification: FieldBlockJustification
+      HangingIndent: int
+      Data: FieldData }
+    override x.ToString() =
+        $"^FB{x.Width},{x.MaxLines},{x.LineSpacing},{x.Justification},{x.HangingIndent}{x.Data}"
 
 /// Code 128 Bar Code, Subsets A, B, and C (^BC)
 type Barcode =
@@ -207,6 +237,7 @@ type LabelHome =
 type LabelElement =
     | FieldData of FieldData
     | Text of Text
+    | FieldBlock of FieldBlock
     | Barcode of Barcode
     | DataMatrixBarcode of DataMatrixBarcode
     | FieldOrigin of FieldOrigin

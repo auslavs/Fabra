@@ -17,6 +17,9 @@ module internal Render =
                 | Text txt ->
                     sb.AppendLine(txt.ToString()) |> ignore
                     loop tail sb
+                | FieldBlock fb ->
+                    sb.AppendLine(fb.ToString()) |> ignore
+                    loop tail sb
                 | Barcode bc ->
                     sb.AppendLine(bc.ToString()) |> ignore
                     loop tail sb
@@ -85,7 +88,30 @@ type Label =
       Data = (FieldData.FieldData fd) }
     |> LabelElement.Text
 
-    
+  /// <summary>
+  /// Field Block (^FB)
+  ///
+  /// The ^FB command prints text into a defined block-type format,
+  /// word-wrapping a single ^FD field across multiple lines within a
+  /// fixed-width block. It is a modifier emitted immediately before the
+  /// ^FD it applies to.
+  /// </summary>
+  /// <param name="w">Width of the text block line (in dots). Values: 0 to the label width. Default: 0</param>
+  /// <param name="l">Maximum number of lines in the text block. Values: 1 to 9999. Default: 1</param>
+  /// <param name="s">Space added or deleted between lines (in dots). Values: -9999 to 9999. Default: 0</param>
+  /// <param name="j">Text justification. Values: L = left, C = centre, R = right, J = justified. Default: L</param>
+  /// <param name="i">Hanging indent (in dots) of the second and remaining lines. Values: 0 to 9999. Default: 0</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.FieldBlock</returns>
+  static member inline FB w l s j i (fd: string) =
+    { FieldBlock.Width = w
+      MaxLines = l
+      LineSpacing = s
+      Justification = j
+      HangingIndent = i
+      Data = (FieldData.FieldData fd) }
+    |> LabelElement.FieldBlock
+
   /// <summary>
   /// Code 128 Bar Code, Subsets A, B, and C (^BC)
   ///
