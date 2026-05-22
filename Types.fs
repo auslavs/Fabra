@@ -187,6 +187,38 @@ type DataMatrixBarcode =
           | None -> s1 + ","
         $"^BX{x.Orientation},{x.DimensionalHeight},{x.QualityLevel}" +. x.ColumnsToEncode  +. x.RowsToEncode +. x.FormatId +. x.EscapeSequenceControlCharacter +. x.AspectRatio + $"{x.Data}"
 
+/// QR Code error correction level for the ^BQ command.
+[<RequireQualifiedAccess>]
+type QrErrorCorrection =
+  /// Ultra-high reliability (~30% recovery)
+  | H
+  /// High reliability (~25% recovery)
+  | Q
+  /// Standard (~15% recovery)
+  | M
+  /// High density (~7% recovery)
+  | L
+  override x.ToString() =
+    match x with
+    | QrErrorCorrection.H -> "H"
+    | QrErrorCorrection.Q -> "Q"
+    | QrErrorCorrection.M -> "M"
+    | QrErrorCorrection.L -> "L"
+
+/// QR Code Bar Code (^BQ)
+/// The error-correction level is repeated in the ^FD prefix and Fabra
+/// always uses automatic input mode (A), so the field data is emitted as
+/// ^FD{errorCorrection}A,{data}^FS.
+type QrCode =
+    { Orientation: Orientation
+      Model: int
+      Magnification: int
+      ErrorCorrection: QrErrorCorrection
+      Mask: int
+      Data: string }
+    override x.ToString() =
+        $"^BQ{x.Orientation},{x.Model},{x.Magnification},{x.ErrorCorrection},{x.Mask}^FD{x.ErrorCorrection}A,{x.Data}^FS"
+
 /// Field Origin (^FO)
 type FieldOrigin =
     { X_Axis: int
@@ -240,6 +272,7 @@ type LabelElement =
     | FieldBlock of FieldBlock
     | Barcode of Barcode
     | DataMatrixBarcode of DataMatrixBarcode
+    | QrCode of QrCode
     | FieldOrigin of FieldOrigin
     | GraphicBox of GraphicBox
     | BarcodeFieldDefault of BarcodeFieldDefault
