@@ -83,14 +83,23 @@ type FieldData =
         let (FieldData str) = x
         $"^FD{str}^FS"
 
+/// Resident or downloaded font for the ^A command.
+/// Valid identifiers are A-Z and 0-9.
+type Font =
+    | Font of char
+    override x.ToString() =
+        let (Font c) = x
+        string c
+
 /// Scalable/Bitmapped Font (^A)
 type Text =
-    { Orientation: Orientation
+    { Font: Font
+      Orientation: Orientation
       Height: int
       Width: int
       Data: FieldData }
     override x.ToString() =
-        $"^A0{x.Orientation},{x.Height},{x.Width}{x.Data}"
+        $"^A{x.Font}{x.Orientation},{x.Height},{x.Width}{x.Data}"
 
 /// Code 128 Bar Code, Subsets A, B, and C (^BC)
 type Barcode =

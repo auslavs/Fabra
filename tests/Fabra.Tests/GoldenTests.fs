@@ -60,5 +60,10 @@ module GoldenTests =
             ZPL.render (Label [
                 Label.FO 60 60 Justification.Left
                 Label.FX "note"
-                Label.Text Orientation.N 30 30 "hi" ])
+                Label.Text (Font '0') Orientation.N 30 30 "hi" ])
         Assert.Equal("^XA\n^FO60,60,0\n^FXnote^FS\n^A0N,30,30^FDhi^FS\n^XZ", normalize zpl)
+
+    [<Fact>]
+    let ``^A renders the selected font`` () =
+        let zpl = ZPL.render (Label [ Label.Text (Font 'A') Orientation.N 30 20 "hi" ])
+        Assert.Contains("^AAN,30,20^FDhi^FS", zpl)
