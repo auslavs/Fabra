@@ -52,7 +52,7 @@ for simple static labels. Planned additions, ordered easy → hard:
 - [x] `^FB` — Field Block (word-wrapped, multi-line text). New `FieldBlock`
       type (width, max lines, line spacing, justification, hanging indent);
       a modifier emitted before the `^FD` it applies to.
-- [ ] `^BQ` — QR Code. New `QrCode` type (orientation, model,
+- [x] `^BQ` — QR Code. New `QrCode` type (orientation, model,
       magnification, error correction, mask); renders `^BQ...` plus `^FD`.
 - [ ] `^GF` — Graphic Field (bitmap images). Largest item; needs an
       image → monochrome-bitmap encoder. Phase 1: accept pre-encoded

@@ -77,3 +77,13 @@ module GoldenTests =
     let ``^FB justification renders the ZPL letter`` () =
         let zpl = ZPL.render (Label [ Label.FB 200 2 5 FieldBlockJustification.Centre 10 "x" ])
         Assert.Contains("^FB200,2,5,C,10^FDx^FS", zpl)
+
+    [<Fact>]
+    let ``^BQ renders the QR command with a prefixed field data`` () =
+        let zpl = ZPL.render (Label [ Label.BQ Orientation.N 2 10 QrErrorCorrection.Q 7 "HELLO" ])
+        Assert.Contains("^BQN,2,10,Q,7^FDQA,HELLO^FS", zpl)
+
+    [<Fact>]
+    let ``^BQ repeats the error-correction level in the ^FD prefix`` () =
+        let zpl = ZPL.render (Label [ Label.BQ Orientation.N 2 4 QrErrorCorrection.H 5 "data" ])
+        Assert.Contains("^BQN,2,4,H,5^FDHA,data^FS", zpl)

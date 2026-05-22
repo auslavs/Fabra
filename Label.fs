@@ -26,6 +26,9 @@ module internal Render =
                 | DataMatrixBarcode bc ->
                     sb.AppendLine(bc.ToString()) |> ignore
                     loop tail sb
+                | QrCode qr ->
+                    sb.AppendLine(qr.ToString()) |> ignore
+                    loop tail sb
                 | FieldOrigin fo ->
                     sb.AppendLine(fo.ToString()) |> ignore
                     loop tail sb
@@ -169,6 +172,31 @@ type Label =
       AspectRatio = a
       Data = (FieldData.FieldData fd) }
     |> LabelElement.DataMatrixBarcode
+
+  /// <summary>
+  /// QR Code Bar Code (^BQ)
+  ///
+  /// The ^BQ command produces a QR Code, a two-dimensional matrix
+  /// symbology. Fabra always uses automatic data input mode; the
+  /// error-correction level is emitted both in the ^BQ command and in the
+  /// ^FD prefix (as ^FD{e}A,{data}^FS), which the QR field-data format
+  /// requires.
+  /// </summary>
+  /// <param name="o">Field orientation</param>
+  /// <param name="m">Model. Values: 1 = original, 2 = enhanced (recommended). Default: 2</param>
+  /// <param name="f">Magnification factor. Values: 1 to 10</param>
+  /// <param name="e">Error correction level. Values: H (~30%), Q (~25%), M (~15%), L (~7%)</param>
+  /// <param name="k">Mask value. Values: 0 to 7. Default: 7</param>
+  /// <param name="fd">Field Data to encode</param>
+  /// <returns>LabelElement.QrCode</returns>
+  static member inline BQ o m f e k (fd: string) =
+    { QrCode.Orientation = o
+      Model = m
+      Magnification = f
+      ErrorCorrection = e
+      Mask = k
+      Data = fd }
+    |> LabelElement.QrCode
 
   /// <summary>
   /// Field Origin (^FO)
