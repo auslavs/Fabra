@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ImageField.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fabra.fsproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageId>Fabra.Imaging</PackageId>
+    <Version>0.0.1</Version>
+    <Title>Fabra.Imaging</Title>
+    <Authors>Rob Slavin</Authors>
+    <Company>Rob Slavin</Company>
+    <Description>Image-to-ZPL (^GF) conversion for Fabra, powered by SixLabors.ImageSharp. Note: Fabra.Imaging's own code is MIT-licensed, but it depends on SixLabors.ImageSharp 3.x, which is distributed under the Six Labors Split License (free for open-source and personal use; some commercial use requires a paid licence).</Description>
+    <PackageTags>fsharp;ZPL;zebra;label;image;graphic</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/auslavs/Fabra</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/auslavs/Fabra</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
