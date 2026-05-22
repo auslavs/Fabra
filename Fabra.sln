@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C10FE288
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fabra.Tests", "tests\Fabra.Tests\Fabra.Tests.fsproj", "{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Fabra.Imaging", "Fabra.Imaging\Fabra.Imaging.fsproj", "{D1EA891D-75F1-4621-A166-BC6BB445DE1A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1EA891D-75F1-4621-A166-BC6BB445DE1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1EA891D-75F1-4621-A166-BC6BB445DE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1EA891D-75F1-4621-A166-BC6BB445DE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1EA891D-75F1-4621-A166-BC6BB445DE1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CA1C50CD-3D39-4AE6-8D8E-4C52319BF0D1} = {C10FE288-D130-43BA-885A-A77E594DDEAD}

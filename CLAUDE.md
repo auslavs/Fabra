@@ -7,6 +7,9 @@ An F# DSL for generating Zebra Programming Language (ZPL) labels.
 - `Types.fs` — ZPL command domain types; each renders itself via `ToString()`.
 - `Label.fs` — the `Label` type with `static member` factory functions, the
   internal `Render` module, and the public `ZPL.render` function.
+- `Fabra.Imaging/` — optional companion package (`net8.0`) that converts
+  image files to `^GF` graphic fields via SixLabors.ImageSharp. Keeps the
+  image dependency out of the zero-dependency core.
 - `Examples/` — `.fsx` scripts plus their expected `.zpl` golden output.
 - `tests/Fabra.Tests/` — xUnit golden-file and rendering tests.
 
@@ -54,11 +57,13 @@ for simple static labels. Planned additions, ordered easy → hard:
       a modifier emitted before the `^FD` it applies to.
 - [x] `^BQ` — QR Code. New `QrCode` type (orientation, model,
       magnification, error correction, mask); renders `^BQ...` plus `^FD`.
-- [ ] `^GF` — Graphic Field (bitmap images). Largest item; needs an
+- [x] `^GF` — Graphic Field (bitmap images). Largest item; needed an
       image → monochrome-bitmap encoder.
   - [x] Phase 1: accept pre-encoded `^GFA` ASCII-hex data (`GraphicField`
         type; renders `^GFA,{b},{c},{d},{data}^FS`).
-  - [ ] Phase 2: add the image-to-bitmap converter.
+  - [x] Phase 2: image-to-bitmap converter in the `Fabra.Imaging` package
+        (`ImageField.fromFile`/`fromStream`); luminance threshold (default)
+        or Floyd–Steinberg dithering.
 
 ## Open design items
 
