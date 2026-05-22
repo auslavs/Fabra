@@ -47,6 +47,51 @@ module internal Render =
                 | LabelHome lh ->
                     sb.AppendLine(lh.ToString()) |> ignore
                     loop tail sb
+                | ChangeFont cf ->
+                    sb.AppendLine(cf.ToString()) |> ignore
+                    loop tail sb
+                | FieldReverse ->
+                    sb.AppendLine("^FR") |> ignore
+                    loop tail sb
+                | FieldHexadecimal fh ->
+                    sb.AppendLine(fh.ToString()) |> ignore
+                    loop tail sb
+                | ChangeInternational ci ->
+                    sb.AppendLine(ci.ToString()) |> ignore
+                    loop tail sb
+                | LabelLength ll ->
+                    sb.AppendLine(ll.ToString()) |> ignore
+                    loop tail sb
+                | PrintWidth pw ->
+                    sb.AppendLine(pw.ToString()) |> ignore
+                    loop tail sb
+                | MediaDarkness md ->
+                    sb.AppendLine(md.ToString()) |> ignore
+                    loop tail sb
+                | PrintQuantity pq ->
+                    sb.AppendLine(pq.ToString()) |> ignore
+                    loop tail sb
+                | GraphicCircle gc ->
+                    sb.AppendLine(gc.ToString()) |> ignore
+                    loop tail sb
+                | GraphicDiagonal gd ->
+                    sb.AppendLine(gd.ToString()) |> ignore
+                    loop tail sb
+                | GraphicEllipse ge ->
+                    sb.AppendLine(ge.ToString()) |> ignore
+                    loop tail sb
+                | Code39 c39 ->
+                    sb.AppendLine(c39.ToString()) |> ignore
+                    loop tail sb
+                | Interleaved2of5 i25 ->
+                    sb.AppendLine(i25.ToString()) |> ignore
+                    loop tail sb
+                | Ean13 e13 ->
+                    sb.AppendLine(e13.ToString()) |> ignore
+                    loop tail sb
+                | UpcA upc ->
+                    sb.AppendLine(upc.ToString()) |> ignore
+                    loop tail sb
                 | Collection co ->
                     loop (List.append co tail) sb
 
@@ -292,6 +337,199 @@ type Label =
   static member inline LH x y =
     { LabelHome.X_Axis = x; Y_Axis = y }
     |> LabelElement.LabelHome
+
+  /// <summary>
+  /// Change Alphanumeric Default Font (^CF)
+  ///
+  /// Sets the default font, character height and width used by ^FD fields
+  /// that do not specify their own ^A font.
+  /// </summary>
+  /// <param name="f">Default font identifier (A-Z or 0-9)</param>
+  /// <param name="h">Character height (in dots)</param>
+  /// <param name="w">Character width (in dots)</param>
+  /// <returns>LabelElement.ChangeFont</returns>
+  static member inline CF f h w =
+    { ChangeFont.Font = f; Height = h; Width = w }
+    |> LabelElement.ChangeFont
+
+  /// <summary>
+  /// Field Reverse Print (^FR)
+  ///
+  /// Reverses the print colour of the field it precedes (white on black,
+  /// or vice versa). Emitted before the field's ^FD.
+  /// </summary>
+  /// <returns>LabelElement.FieldReverse</returns>
+  static member FR = LabelElement.FieldReverse
+
+  /// <summary>
+  /// Field Hexadecimal Indicator (^FH)
+  ///
+  /// Lets the following ^FD encode non-printable characters as hex escapes.
+  /// </summary>
+  /// <param name="c">Escape indicator character (ZPL default is '_')</param>
+  /// <returns>LabelElement.FieldHexadecimal</returns>
+  static member inline FH c =
+    FieldHexadecimal.FieldHexadecimal c
+    |> LabelElement.FieldHexadecimal
+
+  /// <summary>
+  /// Change International Font/Encoding (^CI)
+  /// </summary>
+  /// <param name="n">Character set. Values: 0 to 36 (e.g. 28 = UTF-8)</param>
+  /// <returns>LabelElement.ChangeInternational</returns>
+  static member inline CI n =
+    ChangeInternational.ChangeInternational n
+    |> LabelElement.ChangeInternational
+
+  /// <summary>
+  /// Label Length (^LL)
+  /// </summary>
+  /// <param name="y">Label length (in dots)</param>
+  /// <returns>LabelElement.LabelLength</returns>
+  static member inline LL y =
+    LabelLength.LabelLength y
+    |> LabelElement.LabelLength
+
+  /// <summary>
+  /// Print Width (^PW)
+  /// </summary>
+  /// <param name="a">Label width (in dots)</param>
+  /// <returns>LabelElement.PrintWidth</returns>
+  static member inline PW a =
+    PrintWidth.PrintWidth a
+    |> LabelElement.PrintWidth
+
+  /// <summary>
+  /// Media Darkness (^MD)
+  /// </summary>
+  /// <param name="a">Darkness adjustment. Values: -30 to 30</param>
+  /// <returns>LabelElement.MediaDarkness</returns>
+  static member inline MD a =
+    MediaDarkness.MediaDarkness a
+    |> LabelElement.MediaDarkness
+
+  /// <summary>
+  /// Print Quantity (^PQ)
+  /// </summary>
+  /// <param name="q">Total quantity of labels to print</param>
+  /// <param name="p">Pause-and-cut count (labels printed before a pause)</param>
+  /// <param name="r">Replicates of each serial number</param>
+  /// <param name="e">Override pause count</param>
+  /// <param name="o">Cut on error label</param>
+  /// <returns>LabelElement.PrintQuantity</returns>
+  static member inline PQ q p r e o =
+    { PrintQuantity.Quantity = q; Pause = p; Replicates = r; OverridePause = e; CutOnError = o }
+    |> LabelElement.PrintQuantity
+
+  /// <summary>
+  /// Graphic Circle (^GC)
+  /// </summary>
+  /// <param name="d">Circle diameter (in dots)</param>
+  /// <param name="t">Border thickness (in dots)</param>
+  /// <param name="c">Line colour</param>
+  /// <returns>LabelElement.GraphicCircle</returns>
+  static member inline GC d t c =
+    { GraphicCircle.Diameter = d; Thickness = t; LineColour = c }
+    |> LabelElement.GraphicCircle
+
+  /// <summary>
+  /// Graphic Diagonal Line (^GD)
+  /// </summary>
+  /// <param name="w">Bounding box width (in dots)</param>
+  /// <param name="h">Bounding box height (in dots)</param>
+  /// <param name="t">Border thickness (in dots)</param>
+  /// <param name="c">Line colour</param>
+  /// <param name="o">Diagonal direction (R = '\', L = '/')</param>
+  /// <returns>LabelElement.GraphicDiagonal</returns>
+  static member inline GD w h t c o =
+    { GraphicDiagonal.Width = w; Height = h; Thickness = t; LineColour = c; Orientation = o }
+    |> LabelElement.GraphicDiagonal
+
+  /// <summary>
+  /// Graphic Ellipse (^GE)
+  /// </summary>
+  /// <param name="w">Ellipse width (in dots)</param>
+  /// <param name="h">Ellipse height (in dots)</param>
+  /// <param name="t">Border thickness (in dots)</param>
+  /// <param name="c">Line colour</param>
+  /// <returns>LabelElement.GraphicEllipse</returns>
+  static member inline GE w h t c =
+    { GraphicEllipse.Width = w; Height = h; Thickness = t; LineColour = c }
+    |> LabelElement.GraphicEllipse
+
+  /// <summary>
+  /// Code 39 Bar Code (^B3)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="e">Mod-43 check digit</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Code39</returns>
+  static member inline B3 o e h f g (fd: string) =
+    { Code39.Orientation = o
+      CheckDigit = e
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Code39
+
+  /// <summary>
+  /// Interleaved 2 of 5 Bar Code (^B2)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="e">Calculate and print mod-10 check digit</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Interleaved2of5</returns>
+  static member inline B2 o h f g e (fd: string) =
+    { Interleaved2of5.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      CheckDigit = e
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Interleaved2of5
+
+  /// <summary>
+  /// EAN-13 Bar Code (^BE)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Ean13</returns>
+  static member inline BE o h f g (fd: string) =
+    { Ean13.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Ean13
+
+  /// <summary>
+  /// UPC-A Bar Code (^BU)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="e">Print check digit</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.UpcA</returns>
+  static member inline BU o h f g e (fd: string) =
+    { UpcA.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      PrintCheckDigit = e
+      Data = FieldData.FieldData fd }
+    |> LabelElement.UpcA
 
   static member inline Collection lst = LabelElement.Collection lst
 

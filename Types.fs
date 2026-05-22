@@ -94,6 +94,18 @@ type LineColour =
     | LineColour.B -> "B"
     | LineColour.W -> "W"
 
+/// Diagonal orientation for the Graphic Diagonal Line (^GD) command.
+[<RequireQualifiedAccess>]
+type Diagonal =
+  /// Right-leaning diagonal, '\' (default).
+  | R
+  /// Left-leaning diagonal, '/'.
+  | L
+  override x.ToString() =
+    match x with
+    | Diagonal.R -> "R"
+    | Diagonal.L -> "L"
+
 /// Field Data (^FD)
 type FieldData =
     | FieldData of string
@@ -275,6 +287,128 @@ type LabelHome =
       Y_Axis: int }
     override x.ToString() = $"^LH{x.X_Axis},{x.Y_Axis}"
 
+/// Change Alphanumeric Default Font (^CF)
+type ChangeFont =
+    { Font: Font
+      Height: int
+      Width: int }
+    override x.ToString() = $"^CF{x.Font},{x.Height},{x.Width}"
+
+/// Field Hexadecimal Indicator (^FH)
+type FieldHexadecimal =
+    | FieldHexadecimal of char
+    override x.ToString() =
+        let (FieldHexadecimal c) = x
+        $"^FH{c}"
+
+/// Change International Font/Encoding (^CI)
+type ChangeInternational =
+    | ChangeInternational of int
+    override x.ToString() =
+        let (ChangeInternational n) = x
+        $"^CI{n}"
+
+/// Label Length (^LL)
+type LabelLength =
+    | LabelLength of int
+    override x.ToString() =
+        let (LabelLength n) = x
+        $"^LL{n}"
+
+/// Print Width (^PW)
+type PrintWidth =
+    | PrintWidth of int
+    override x.ToString() =
+        let (PrintWidth n) = x
+        $"^PW{n}"
+
+/// Media Darkness (^MD)
+type MediaDarkness =
+    | MediaDarkness of int
+    override x.ToString() =
+        let (MediaDarkness n) = x
+        $"^MD{n}"
+
+/// Print Quantity (^PQ)
+type PrintQuantity =
+    { Quantity: int
+      Pause: int
+      Replicates: int
+      OverridePause: YesNo
+      CutOnError: YesNo }
+    override x.ToString() =
+        $"^PQ{x.Quantity},{x.Pause},{x.Replicates},{x.OverridePause},{x.CutOnError}"
+
+/// Graphic Circle (^GC)
+type GraphicCircle =
+    { Diameter: int
+      Thickness: int
+      LineColour: LineColour }
+    override x.ToString() =
+        $"^GC{x.Diameter},{x.Thickness},{x.LineColour}^FS"
+
+/// Graphic Diagonal Line (^GD)
+type GraphicDiagonal =
+    { Width: int
+      Height: int
+      Thickness: int
+      LineColour: LineColour
+      Orientation: Diagonal }
+    override x.ToString() =
+        $"^GD{x.Width},{x.Height},{x.Thickness},{x.LineColour},{x.Orientation}^FS"
+
+/// Graphic Ellipse (^GE)
+type GraphicEllipse =
+    { Width: int
+      Height: int
+      Thickness: int
+      LineColour: LineColour }
+    override x.ToString() =
+        $"^GE{x.Width},{x.Height},{x.Thickness},{x.LineColour}^FS"
+
+/// Code 39 Bar Code (^B3)
+type Code39 =
+    { Orientation: Orientation
+      CheckDigit: YesNo
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B3{x.Orientation},{x.CheckDigit},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// Interleaved 2 of 5 Bar Code (^B2)
+type Interleaved2of5 =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      CheckDigit: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B2{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.CheckDigit}{x.Data}"
+
+/// EAN-13 Bar Code (^BE)
+type Ean13 =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^BE{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// UPC-A Bar Code (^BU)
+type UpcA =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      PrintCheckDigit: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^BU{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.PrintCheckDigit}{x.Data}"
+
 /// A label element/command.
 /// Used for containing all label commands within a single collection/label.
 type LabelElement =
@@ -290,4 +424,19 @@ type LabelElement =
     | BarcodeFieldDefault of BarcodeFieldDefault
     | Comment of Comment
     | LabelHome of LabelHome
+    | ChangeFont of ChangeFont
+    | FieldReverse
+    | FieldHexadecimal of FieldHexadecimal
+    | ChangeInternational of ChangeInternational
+    | LabelLength of LabelLength
+    | PrintWidth of PrintWidth
+    | MediaDarkness of MediaDarkness
+    | PrintQuantity of PrintQuantity
+    | GraphicCircle of GraphicCircle
+    | GraphicDiagonal of GraphicDiagonal
+    | GraphicEllipse of GraphicEllipse
+    | Code39 of Code39
+    | Interleaved2of5 of Interleaved2of5
+    | Ean13 of Ean13
+    | UpcA of UpcA
     | Collection of LabelElement list

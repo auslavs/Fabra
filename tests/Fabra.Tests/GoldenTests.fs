@@ -92,3 +92,63 @@ module GoldenTests =
     let ``^GF renders pre-encoded ASCII-hex graphic data`` () =
         let zpl = ZPL.render (Label [ Label.GF 8 8 2 "FF00FF00FF00FF00" ])
         Assert.Contains("^GFA,8,8,2,FF00FF00FF00FF00^FS", zpl)
+
+    [<Fact>]
+    let ``^CF sets the default font`` () =
+        Assert.Contains("^CF0,30,30", ZPL.render (Label [ Label.CF (Font '0') 30 30 ]))
+
+    [<Fact>]
+    let ``^FR renders field reverse`` () =
+        Assert.Contains("^FR", ZPL.render (Label [ Label.FR ]))
+
+    [<Fact>]
+    let ``^FH renders the hex indicator`` () =
+        Assert.Contains("^FH_", ZPL.render (Label [ Label.FH '_' ]))
+
+    [<Fact>]
+    let ``^CI sets the international encoding`` () =
+        Assert.Contains("^CI28", ZPL.render (Label [ Label.CI 28 ]))
+
+    [<Fact>]
+    let ``^LL sets the label length`` () =
+        Assert.Contains("^LL1200", ZPL.render (Label [ Label.LL 1200 ]))
+
+    [<Fact>]
+    let ``^PW sets the print width`` () =
+        Assert.Contains("^PW800", ZPL.render (Label [ Label.PW 800 ]))
+
+    [<Fact>]
+    let ``^MD sets the media darkness`` () =
+        Assert.Contains("^MD10", ZPL.render (Label [ Label.MD 10 ]))
+
+    [<Fact>]
+    let ``^PQ sets the print quantity`` () =
+        Assert.Contains("^PQ3,0,0,N,Y", ZPL.render (Label [ Label.PQ 3 0 0 YesNo.N YesNo.Y ]))
+
+    [<Fact>]
+    let ``^GC renders a circle`` () =
+        Assert.Contains("^GC100,4,B^FS", ZPL.render (Label [ Label.GC 100 4 LineColour.B ]))
+
+    [<Fact>]
+    let ``^GD renders a diagonal line`` () =
+        Assert.Contains("^GD100,100,2,B,R^FS", ZPL.render (Label [ Label.GD 100 100 2 LineColour.B Diagonal.R ]))
+
+    [<Fact>]
+    let ``^GE renders an ellipse`` () =
+        Assert.Contains("^GE120,60,3,B^FS", ZPL.render (Label [ Label.GE 120 60 3 LineColour.B ]))
+
+    [<Fact>]
+    let ``^B3 renders a Code 39 barcode`` () =
+        Assert.Contains("^B3N,N,100,Y,N^FD123ABC^FS", ZPL.render (Label [ Label.B3 Orientation.N YesNo.N 100 YesNo.Y YesNo.N "123ABC" ]))
+
+    [<Fact>]
+    let ``^B2 renders an Interleaved 2 of 5 barcode`` () =
+        Assert.Contains("^B2N,100,Y,N,N^FD1234^FS", ZPL.render (Label [ Label.B2 Orientation.N 100 YesNo.Y YesNo.N YesNo.N "1234" ]))
+
+    [<Fact>]
+    let ``^BE renders an EAN-13 barcode`` () =
+        Assert.Contains("^BEN,100,Y,N^FD123456789012^FS", ZPL.render (Label [ Label.BE Orientation.N 100 YesNo.Y YesNo.N "123456789012" ]))
+
+    [<Fact>]
+    let ``^BU renders a UPC-A barcode`` () =
+        Assert.Contains("^BUN,100,Y,N,Y^FD12345678901^FS", ZPL.render (Label [ Label.BU Orientation.N 100 YesNo.Y YesNo.N YesNo.Y "12345678901" ]))
