@@ -55,8 +55,10 @@ for simple static labels. Planned additions, ordered easy → hard:
 - [x] `^BQ` — QR Code. New `QrCode` type (orientation, model,
       magnification, error correction, mask); renders `^BQ...` plus `^FD`.
 - [ ] `^GF` — Graphic Field (bitmap images). Largest item; needs an
-      image → monochrome-bitmap encoder. Phase 1: accept pre-encoded
-      `^GFA` ASCII-hex data. Phase 2: add the image-to-bitmap converter.
+      image → monochrome-bitmap encoder.
+  - [x] Phase 1: accept pre-encoded `^GFA` ASCII-hex data (`GraphicField`
+        type; renders `^GFA,{b},{c},{d},{data}^FS`).
+  - [ ] Phase 2: add the image-to-bitmap converter.
 
 ## Open design items
 
