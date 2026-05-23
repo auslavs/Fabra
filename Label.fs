@@ -359,7 +359,7 @@ type Label =
   /// or vice versa). Emitted before the field's ^FD.
   /// </summary>
   /// <returns>LabelElement.FieldReverse</returns>
-  static member FR = LabelElement.FieldReverse
+  static member inline FR = LabelElement.FieldReverse
 
   /// <summary>
   /// Field Hexadecimal Indicator (^FH)
@@ -442,7 +442,7 @@ type Label =
   /// <param name="o">Diagonal direction (R = '\', L = '/')</param>
   /// <returns>LabelElement.GraphicDiagonal</returns>
   static member inline GD w h t c o =
-    { GraphicDiagonal.Width = w; Height = h; Thickness = t; LineColour = c; Orientation = o }
+    { GraphicDiagonal.Width = w; Height = h; Thickness = t; LineColour = c; Direction = o }
     |> LabelElement.GraphicDiagonal
 
   /// <summary>

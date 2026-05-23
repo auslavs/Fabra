@@ -353,9 +353,9 @@ type GraphicDiagonal =
       Height: int
       Thickness: int
       LineColour: LineColour
-      Orientation: Diagonal }
+      Direction: Diagonal }
     override x.ToString() =
-        $"^GD{x.Width},{x.Height},{x.Thickness},{x.LineColour},{x.Orientation}^FS"
+        $"^GD{x.Width},{x.Height},{x.Thickness},{x.LineColour},{x.Direction}^FS"
 
 /// Graphic Ellipse (^GE)
 type GraphicEllipse =
