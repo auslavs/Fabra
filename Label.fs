@@ -92,6 +92,69 @@ module internal Render =
                 | UpcA upc ->
                     sb.AppendLine(upc.ToString()) |> ignore
                     loop tail sb
+                | Ean8 b8 ->
+                    sb.AppendLine(b8.ToString()) |> ignore
+                    loop tail sb
+                | UpcE b9 ->
+                    sb.AppendLine(b9.ToString()) |> ignore
+                    loop tail sb
+                | Code93 ba ->
+                    sb.AppendLine(ba.ToString()) |> ignore
+                    loop tail sb
+                | Code11 b1 ->
+                    sb.AppendLine(b1.ToString()) |> ignore
+                    loop tail sb
+                | Pdf417 b7 ->
+                    sb.AppendLine(b7.ToString()) |> ignore
+                    loop tail sb
+                | FieldTypeset ft ->
+                    sb.AppendLine(ft.ToString()) |> ignore
+                    loop tail sb
+                | FieldVariable fv ->
+                    sb.AppendLine(fv.ToString()) |> ignore
+                    loop tail sb
+                | FieldOrientation fw ->
+                    sb.AppendLine(fw.ToString()) |> ignore
+                    loop tail sb
+                | PrintOrientation po ->
+                    sb.AppendLine(po.ToString()) |> ignore
+                    loop tail sb
+                | LabelShift ls ->
+                    sb.AppendLine(ls.ToString()) |> ignore
+                    loop tail sb
+                | LabelTop lt ->
+                    sb.AppendLine(lt.ToString()) |> ignore
+                    loop tail sb
+                | MediaType mt ->
+                    sb.AppendLine(mt.ToString()) |> ignore
+                    loop tail sb
+                | Plessey bp ->
+                    sb.AppendLine(bp.ToString()) |> ignore
+                    loop tail sb
+                | Codabar bk ->
+                    sb.AppendLine(bk.ToString()) |> ignore
+                    loop tail sb
+                | Aztec bo ->
+                    sb.AppendLine(bo.ToString()) |> ignore
+                    loop tail sb
+                | GraphicSymbol gs ->
+                    sb.AppendLine(gs.ToString()) |> ignore
+                    loop tail sb
+                | FieldNumber fn ->
+                    sb.AppendLine(fn.ToString()) |> ignore
+                    loop tail sb
+                | FieldParameter fp ->
+                    sb.AppendLine(fp.ToString()) |> ignore
+                    loop tail sb
+                | PrintMirror pm ->
+                    sb.AppendLine(pm.ToString()) |> ignore
+                    loop tail sb
+                | Slew pf ->
+                    sb.AppendLine(pf.ToString()) |> ignore
+                    loop tail sb
+                | LabelReverse lr ->
+                    sb.AppendLine(lr.ToString()) |> ignore
+                    loop tail sb
                 | Collection co ->
                     loop (List.append co tail) sb
 
@@ -257,7 +320,7 @@ type Label =
   /// <param name="z">Justification. Values: 0 = left justification, 1 = right justification, 2 = auto justification (script dependent). Default: last accepted ^FW value or ^FW default</param>
   /// <returns>LabelElement.FieldOrigin</returns>
   static member inline FO x y z =
-    { X_Axis = x; Y_Axis = y; Z = z }
+    { FieldOrigin.X_Axis = x; Y_Axis = y; Z = z }
     |> LabelElement.FieldOrigin
 
   /// <summary>
@@ -530,6 +593,306 @@ type Label =
       PrintCheckDigit = e
       Data = FieldData.FieldData fd }
     |> LabelElement.UpcA
+
+  /// <summary>
+  /// EAN-8 Bar Code (^B8)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Ean8</returns>
+  static member inline B8 o h f g (fd: string) =
+    { Ean8.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Ean8
+
+  /// <summary>
+  /// UPC-E Bar Code (^B9)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="e">Print check digit</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.UpcE</returns>
+  static member inline B9 o h f g e (fd: string) =
+    { UpcE.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      PrintCheckDigit = e
+      Data = FieldData.FieldData fd }
+    |> LabelElement.UpcE
+
+  /// <summary>
+  /// Code 93 Bar Code (^BA)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="e">Print check digit</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Code93</returns>
+  static member inline BA o h f g e (fd: string) =
+    { Code93.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      PrintCheckDigit = e
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Code93
+
+  /// <summary>
+  /// Code 11 Bar Code (^B1)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="e">Check digit</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Code11</returns>
+  static member inline B1 o e h f g (fd: string) =
+    { Code11.Orientation = o
+      CheckDigit = e
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Code11
+
+  /// <summary>
+  /// PDF417 Bar Code (^B7)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Row height (in dots)</param>
+  /// <param name="s">Security (error correction) level. Values: 0 to 8</param>
+  /// <param name="c">Number of data columns. Values: 1 to 30</param>
+  /// <param name="r">Number of rows. Values: 3 to 90</param>
+  /// <param name="t">Truncate right row indicators and stop pattern</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Pdf417</returns>
+  static member inline B7 o h s c r t (fd: string) =
+    { Pdf417.Orientation = o
+      Height = h
+      SecurityLevel = s
+      Columns = c
+      Rows = r
+      Truncate = t
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Pdf417
+
+  /// <summary>
+  /// Field Typeset (^FT)
+  ///
+  /// Like ^FO, but the field is positioned relative to a typeset baseline.
+  /// </summary>
+  /// <param name="x">X-axis location (in dots)</param>
+  /// <param name="y">Y-axis location (in dots)</param>
+  /// <param name="z">Justification</param>
+  /// <returns>LabelElement.FieldTypeset</returns>
+  static member inline FT x y z =
+    { FieldTypeset.X_Axis = x; Y_Axis = y; Z = z }
+    |> LabelElement.FieldTypeset
+
+  /// <summary>
+  /// Field Variable (^FV)
+  ///
+  /// Like ^FD, but the data prints only if a variable field is defined.
+  /// </summary>
+  /// <param name="s">Variable field data</param>
+  /// <returns>LabelElement.FieldVariable</returns>
+  static member inline FV s =
+    FieldVariable.FieldVariable s
+    |> LabelElement.FieldVariable
+
+  /// <summary>
+  /// Field Orientation default (^FW)
+  ///
+  /// Sets the default orientation for fields that follow.
+  /// </summary>
+  /// <param name="o">Default field orientation</param>
+  /// <returns>LabelElement.FieldOrientation</returns>
+  static member inline FW o =
+    FieldOrientation.FieldOrientation o
+    |> LabelElement.FieldOrientation
+
+  /// <summary>
+  /// Print Orientation (^PO)
+  ///
+  /// Inverts the label format 180 degrees (or leaves it normal).
+  /// </summary>
+  /// <param name="p">Print orientation (Normal or Invert)</param>
+  /// <returns>LabelElement.PrintOrientation</returns>
+  static member inline PO p = LabelElement.PrintOrientation p
+
+  /// <summary>
+  /// Label Shift (^LS)
+  /// </summary>
+  /// <param name="a">Left-shift amount applied to the whole label (in dots)</param>
+  /// <returns>LabelElement.LabelShift</returns>
+  static member inline LS a =
+    LabelShift.LabelShift a
+    |> LabelElement.LabelShift
+
+  /// <summary>
+  /// Label Top (^LT)
+  /// </summary>
+  /// <param name="x">Vertical shift of the whole label (in dots)</param>
+  /// <returns>LabelElement.LabelTop</returns>
+  static member inline LT x =
+    LabelTop.LabelTop x
+    |> LabelElement.LabelTop
+
+  /// <summary>
+  /// Media Type (^MT)
+  /// </summary>
+  /// <param name="m">Media type (ThermalTransfer or DirectThermal)</param>
+  /// <returns>LabelElement.MediaType</returns>
+  static member inline MT m = LabelElement.MediaType m
+
+  /// <summary>
+  /// Plessey Bar Code (^BP)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="e">Print check digit</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Plessey</returns>
+  static member inline BP o e h f g (fd: string) =
+    { Plessey.Orientation = o
+      PrintCheckDigit = e
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Plessey
+
+  /// <summary>
+  /// ANSI Codabar Bar Code (^BK)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="e">Check digit (must be N for Codabar)</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="k">Start character (A, B, C or D)</param>
+  /// <param name="n">Stop character (A, B, C or D)</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Codabar</returns>
+  static member inline BK o e h f g k n (fd: string) =
+    { Codabar.Orientation = o
+      CheckDigit = e
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      StartCharacter = k
+      StopCharacter = n
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Codabar
+
+  /// <summary>
+  /// Aztec Bar Code (^BO)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="m">Magnification factor. Values: 1 to 10</param>
+  /// <param name="c">Extended Channel Interpretation code indicator</param>
+  /// <param name="d">Error control / symbol size. Values: 0 = default, 1-99 = error correction %, 101-104 = compact, 201-232 = full range, 300 = rune</param>
+  /// <param name="e">Menu symbol</param>
+  /// <param name="n">Number of symbols for structured append. Values: 1 to 26</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Aztec</returns>
+  static member inline BO o m c d e n (fd: string) =
+    { Aztec.Orientation = o
+      Magnification = m
+      ExtendedChannel = c
+      ErrorControl = d
+      MenuSymbol = e
+      SymbolCount = n
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Aztec
+
+  /// <summary>
+  /// Graphic Symbol (^GS)
+  ///
+  /// Selects a built-in symbol; the symbol characters (A-E) are supplied
+  /// via the following ^FD.
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Symbol height (in dots)</param>
+  /// <param name="w">Symbol width (in dots)</param>
+  /// <param name="fd">Field Data (symbol selector characters)</param>
+  /// <returns>LabelElement.GraphicSymbol</returns>
+  static member inline GS o h w (fd: string) =
+    { GraphicSymbol.Orientation = o
+      Height = h
+      Width = w
+      Data = FieldData.FieldData fd }
+    |> LabelElement.GraphicSymbol
+
+  /// <summary>
+  /// Field Number (^FN)
+  ///
+  /// Numbers a field for use with stored formats (^XF) or variable data.
+  /// </summary>
+  /// <param name="n">Field number</param>
+  /// <returns>LabelElement.FieldNumber</returns>
+  static member inline FN n =
+    FieldNumber.FieldNumber n
+    |> LabelElement.FieldNumber
+
+  /// <summary>
+  /// Field Parameter (^FP)
+  ///
+  /// Sets the field direction and inter-character gap for the field.
+  /// </summary>
+  /// <param name="d">Field direction (H = horizontal, V = vertical, R = reverse)</param>
+  /// <param name="g">Additional inter-character gap (in dots)</param>
+  /// <returns>LabelElement.FieldParameter</returns>
+  static member inline FP d g =
+    { FieldParameter.Direction = d; Gap = g }
+    |> LabelElement.FieldParameter
+
+  /// <summary>
+  /// Print Mirror Image (^PM)
+  /// </summary>
+  /// <param name="y">Mirror the entire label</param>
+  /// <returns>LabelElement.PrintMirror</returns>
+  static member inline PM y =
+    PrintMirror.PrintMirror y
+    |> LabelElement.PrintMirror
+
+  /// <summary>
+  /// Slew given number of dots (^PF)
+  ///
+  /// Advances the label a given number of dots without printing.
+  /// </summary>
+  /// <param name="n">Number of dots to slew</param>
+  /// <returns>LabelElement.Slew</returns>
+  static member inline PF n =
+    Slew.Slew n
+    |> LabelElement.Slew
+
+  /// <summary>
+  /// Label Reverse Print (^LR)
+  ///
+  /// Reverses the print of the whole label (black on white becomes white
+  /// on black).
+  /// </summary>
+  /// <param name="y">Enable label reverse print</param>
+  /// <returns>LabelElement.LabelReverse</returns>
+  static member inline LR y =
+    LabelReverse.LabelReverse y
+    |> LabelElement.LabelReverse
 
   static member inline Collection lst = LabelElement.Collection lst
 

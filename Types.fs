@@ -409,6 +409,215 @@ type UpcA =
     override x.ToString() =
         $"^BU{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.PrintCheckDigit}{x.Data}"
 
+/// EAN-8 Bar Code (^B8)
+type Ean8 =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B8{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// UPC-E Bar Code (^B9)
+type UpcE =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      PrintCheckDigit: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B9{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.PrintCheckDigit}{x.Data}"
+
+/// Code 93 Bar Code (^BA)
+type Code93 =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      PrintCheckDigit: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^BA{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.PrintCheckDigit}{x.Data}"
+
+/// Code 11 Bar Code (^B1)
+type Code11 =
+    { Orientation: Orientation
+      CheckDigit: YesNo
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B1{x.Orientation},{x.CheckDigit},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// PDF417 Bar Code (^B7)
+type Pdf417 =
+    { Orientation: Orientation
+      Height: int
+      SecurityLevel: int
+      Columns: int
+      Rows: int
+      Truncate: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B7{x.Orientation},{x.Height},{x.SecurityLevel},{x.Columns},{x.Rows},{x.Truncate}{x.Data}"
+
+/// Field Typeset (^FT)
+/// Like ^FO but positions the field relative to a typeset baseline.
+type FieldTypeset =
+    { X_Axis: int
+      Y_Axis: int
+      Z: Justification }
+    override x.ToString() = $"^FT{x.X_Axis},{x.Y_Axis},{x.Z}"
+
+/// Field Variable (^FV)
+type FieldVariable =
+    | FieldVariable of string
+    override x.ToString() =
+        let (FieldVariable str) = x
+        $"^FV{str}^FS"
+
+/// Field Orientation default (^FW)
+type FieldOrientation =
+    | FieldOrientation of Orientation
+    override x.ToString() =
+        let (FieldOrientation o) = x
+        $"^FW{o}"
+
+/// Print Orientation (^PO)
+[<RequireQualifiedAccess>]
+type PrintOrientation =
+    /// Normal
+    | Normal
+    /// Invert 180 degrees
+    | Invert
+    override x.ToString() =
+        match x with
+        | PrintOrientation.Normal -> "^PON"
+        | PrintOrientation.Invert -> "^POI"
+
+/// Label Shift (^LS)
+type LabelShift =
+    | LabelShift of int
+    override x.ToString() =
+        let (LabelShift n) = x
+        $"^LS{n}"
+
+/// Label Top (^LT)
+type LabelTop =
+    | LabelTop of int
+    override x.ToString() =
+        let (LabelTop n) = x
+        $"^LT{n}"
+
+/// Media Type (^MT)
+[<RequireQualifiedAccess>]
+type MediaType =
+    /// Thermal transfer
+    | ThermalTransfer
+    /// Direct thermal
+    | DirectThermal
+    override x.ToString() =
+        match x with
+        | MediaType.ThermalTransfer -> "^MTT"
+        | MediaType.DirectThermal -> "^MTD"
+
+/// Field direction for the Field Parameter (^FP) command.
+[<RequireQualifiedAccess>]
+type FieldDirection =
+    /// Horizontal
+    | H
+    /// Vertical
+    | V
+    /// Reverse
+    | R
+    override x.ToString() =
+        match x with
+        | FieldDirection.H -> "H"
+        | FieldDirection.V -> "V"
+        | FieldDirection.R -> "R"
+
+/// Plessey Bar Code (^BP)
+type Plessey =
+    { Orientation: Orientation
+      PrintCheckDigit: YesNo
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^BP{x.Orientation},{x.PrintCheckDigit},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// ANSI Codabar Bar Code (^BK)
+type Codabar =
+    { Orientation: Orientation
+      CheckDigit: YesNo
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      StartCharacter: char
+      StopCharacter: char
+      Data: FieldData }
+    override x.ToString() =
+        $"^BK{x.Orientation},{x.CheckDigit},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.StartCharacter},{x.StopCharacter}{x.Data}"
+
+/// Aztec Bar Code (^BO)
+type Aztec =
+    { Orientation: Orientation
+      Magnification: int
+      ExtendedChannel: YesNo
+      ErrorControl: int
+      MenuSymbol: YesNo
+      SymbolCount: int
+      Data: FieldData }
+    override x.ToString() =
+        $"^BO{x.Orientation},{x.Magnification},{x.ExtendedChannel},{x.ErrorControl},{x.MenuSymbol},{x.SymbolCount}{x.Data}"
+
+/// Graphic Symbol (^GS)
+type GraphicSymbol =
+    { Orientation: Orientation
+      Height: int
+      Width: int
+      Data: FieldData }
+    override x.ToString() =
+        $"^GS{x.Orientation},{x.Height},{x.Width}{x.Data}"
+
+/// Field Number (^FN)
+type FieldNumber =
+    | FieldNumber of int
+    override x.ToString() =
+        let (FieldNumber n) = x
+        $"^FN{n}"
+
+/// Field Parameter (^FP)
+type FieldParameter =
+    { Direction: FieldDirection
+      Gap: int }
+    override x.ToString() = $"^FP{x.Direction},{x.Gap}"
+
+/// Print Mirror Image (^PM)
+type PrintMirror =
+    | PrintMirror of YesNo
+    override x.ToString() =
+        let (PrintMirror y) = x
+        $"^PM{y}"
+
+/// Slew given number of dots (^PF)
+type Slew =
+    | Slew of int
+    override x.ToString() =
+        let (Slew n) = x
+        $"^PF{n}"
+
+/// Label Reverse Print (^LR)
+type LabelReverse =
+    | LabelReverse of YesNo
+    override x.ToString() =
+        let (LabelReverse y) = x
+        $"^LR{y}"
+
 /// A label element/command.
 /// Used for containing all label commands within a single collection/label.
 type LabelElement =
@@ -439,4 +648,25 @@ type LabelElement =
     | Interleaved2of5 of Interleaved2of5
     | Ean13 of Ean13
     | UpcA of UpcA
+    | Ean8 of Ean8
+    | UpcE of UpcE
+    | Code93 of Code93
+    | Code11 of Code11
+    | Pdf417 of Pdf417
+    | FieldTypeset of FieldTypeset
+    | FieldVariable of FieldVariable
+    | FieldOrientation of FieldOrientation
+    | PrintOrientation of PrintOrientation
+    | LabelShift of LabelShift
+    | LabelTop of LabelTop
+    | MediaType of MediaType
+    | Plessey of Plessey
+    | Codabar of Codabar
+    | Aztec of Aztec
+    | GraphicSymbol of GraphicSymbol
+    | FieldNumber of FieldNumber
+    | FieldParameter of FieldParameter
+    | PrintMirror of PrintMirror
+    | Slew of Slew
+    | LabelReverse of LabelReverse
     | Collection of LabelElement list
