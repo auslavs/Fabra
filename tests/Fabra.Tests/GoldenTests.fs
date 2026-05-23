@@ -152,3 +152,51 @@ module GoldenTests =
     [<Fact>]
     let ``^BU renders a UPC-A barcode`` () =
         Assert.Contains("^BUN,100,Y,N,Y^FD12345678901^FS", ZPL.render (Label [ Label.BU Orientation.N 100 YesNo.Y YesNo.N YesNo.Y "12345678901" ]))
+
+    [<Fact>]
+    let ``^B8 renders an EAN-8 barcode`` () =
+        Assert.Contains("^B8N,50,Y,N^FD1234567^FS", ZPL.render (Label [ Label.B8 Orientation.N 50 YesNo.Y YesNo.N "1234567" ]))
+
+    [<Fact>]
+    let ``^B9 renders a UPC-E barcode`` () =
+        Assert.Contains("^B9N,50,Y,N,Y^FD123456^FS", ZPL.render (Label [ Label.B9 Orientation.N 50 YesNo.Y YesNo.N YesNo.Y "123456" ]))
+
+    [<Fact>]
+    let ``^BA renders a Code 93 barcode`` () =
+        Assert.Contains("^BAN,50,Y,N,N^FDCODE93^FS", ZPL.render (Label [ Label.BA Orientation.N 50 YesNo.Y YesNo.N YesNo.N "CODE93" ]))
+
+    [<Fact>]
+    let ``^B1 renders a Code 11 barcode`` () =
+        Assert.Contains("^B1N,N,50,Y,N^FD12345^FS", ZPL.render (Label [ Label.B1 Orientation.N YesNo.N 50 YesNo.Y YesNo.N "12345" ]))
+
+    [<Fact>]
+    let ``^B7 renders a PDF417 barcode`` () =
+        Assert.Contains("^B7N,10,5,2,10,N^FDDATA^FS", ZPL.render (Label [ Label.B7 Orientation.N 10 5 2 10 YesNo.N "DATA" ]))
+
+    [<Fact>]
+    let ``^FT renders a field typeset origin`` () =
+        Assert.Contains("^FT50,100,0", ZPL.render (Label [ Label.FT 50 100 Left ]))
+
+    [<Fact>]
+    let ``^FV renders a field variable`` () =
+        Assert.Contains("^FVvar^FS", ZPL.render (Label [ Label.FV "var" ]))
+
+    [<Fact>]
+    let ``^FW sets the default field orientation`` () =
+        Assert.Contains("^FWR", ZPL.render (Label [ Label.FW Orientation.R ]))
+
+    [<Fact>]
+    let ``^PO inverts the print orientation`` () =
+        Assert.Contains("^POI", ZPL.render (Label [ Label.PO PrintOrientation.Invert ]))
+
+    [<Fact>]
+    let ``^LS sets the label shift`` () =
+        Assert.Contains("^LS10", ZPL.render (Label [ Label.LS 10 ]))
+
+    [<Fact>]
+    let ``^LT sets the label top`` () =
+        Assert.Contains("^LT12", ZPL.render (Label [ Label.LT 12 ]))
+
+    [<Fact>]
+    let ``^MT sets the media type`` () =
+        Assert.Contains("^MTD", ZPL.render (Label [ Label.MT MediaType.DirectThermal ]))

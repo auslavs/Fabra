@@ -409,6 +409,121 @@ type UpcA =
     override x.ToString() =
         $"^BU{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.PrintCheckDigit}{x.Data}"
 
+/// EAN-8 Bar Code (^B8)
+type Ean8 =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B8{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// UPC-E Bar Code (^B9)
+type UpcE =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      PrintCheckDigit: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B9{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.PrintCheckDigit}{x.Data}"
+
+/// Code 93 Bar Code (^BA)
+type Code93 =
+    { Orientation: Orientation
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      PrintCheckDigit: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^BA{x.Orientation},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.PrintCheckDigit}{x.Data}"
+
+/// Code 11 Bar Code (^B1)
+type Code11 =
+    { Orientation: Orientation
+      CheckDigit: YesNo
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B1{x.Orientation},{x.CheckDigit},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// PDF417 Bar Code (^B7)
+type Pdf417 =
+    { Orientation: Orientation
+      Height: int
+      SecurityLevel: int
+      Columns: int
+      Rows: int
+      Truncate: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^B7{x.Orientation},{x.Height},{x.SecurityLevel},{x.Columns},{x.Rows},{x.Truncate}{x.Data}"
+
+/// Field Typeset (^FT)
+/// Like ^FO but positions the field relative to a typeset baseline.
+type FieldTypeset =
+    { X_Axis: int
+      Y_Axis: int
+      Z: Justification }
+    override x.ToString() = $"^FT{x.X_Axis},{x.Y_Axis},{x.Z}"
+
+/// Field Variable (^FV)
+type FieldVariable =
+    | FieldVariable of string
+    override x.ToString() =
+        let (FieldVariable str) = x
+        $"^FV{str}^FS"
+
+/// Field Orientation default (^FW)
+type FieldOrientation =
+    | FieldOrientation of Orientation
+    override x.ToString() =
+        let (FieldOrientation o) = x
+        $"^FW{o}"
+
+/// Print Orientation (^PO)
+[<RequireQualifiedAccess>]
+type PrintOrientation =
+    /// Normal
+    | Normal
+    /// Invert 180 degrees
+    | Invert
+    override x.ToString() =
+        match x with
+        | PrintOrientation.Normal -> "^PON"
+        | PrintOrientation.Invert -> "^POI"
+
+/// Label Shift (^LS)
+type LabelShift =
+    | LabelShift of int
+    override x.ToString() =
+        let (LabelShift n) = x
+        $"^LS{n}"
+
+/// Label Top (^LT)
+type LabelTop =
+    | LabelTop of int
+    override x.ToString() =
+        let (LabelTop n) = x
+        $"^LT{n}"
+
+/// Media Type (^MT)
+[<RequireQualifiedAccess>]
+type MediaType =
+    /// Thermal transfer
+    | ThermalTransfer
+    /// Direct thermal
+    | DirectThermal
+    override x.ToString() =
+        match x with
+        | MediaType.ThermalTransfer -> "^MTT"
+        | MediaType.DirectThermal -> "^MTD"
+
 /// A label element/command.
 /// Used for containing all label commands within a single collection/label.
 type LabelElement =
@@ -439,4 +554,16 @@ type LabelElement =
     | Interleaved2of5 of Interleaved2of5
     | Ean13 of Ean13
     | UpcA of UpcA
+    | Ean8 of Ean8
+    | UpcE of UpcE
+    | Code93 of Code93
+    | Code11 of Code11
+    | Pdf417 of Pdf417
+    | FieldTypeset of FieldTypeset
+    | FieldVariable of FieldVariable
+    | FieldOrientation of FieldOrientation
+    | PrintOrientation of PrintOrientation
+    | LabelShift of LabelShift
+    | LabelTop of LabelTop
+    | MediaType of MediaType
     | Collection of LabelElement list

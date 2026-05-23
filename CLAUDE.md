@@ -44,7 +44,7 @@ Each command follows the same pattern:
 
 ## ZPL command roadmap
 
-Fabra implements about 25 of the ~200 ZPL commands. The original
+Fabra implements about 37 of the ~200 ZPL commands. The original
 easy → hard plan below is complete; the full command set and what remains
 is catalogued under "ZPL command catalogue". Planned additions:
 
@@ -85,9 +85,9 @@ separator are emitted automatically by the renderer and have no factory.
 - [x] `^FR` — Field Reverse Print
 - [x] `^FH` — Field Hexadecimal Indicator
 - [x] `^FX` — Comment
-- [ ] `^FT` — Field Typeset
-- [ ] `^FV` — Field Variable
-- [ ] `^FW` — Field Orientation (default)
+- [x] `^FT` — Field Typeset
+- [x] `^FV` — Field Variable
+- [x] `^FW` — Field Orientation (default)
 - [ ] `^FN` — Field Number
 - [ ] `^FP` — Field Parameter (character spacing/direction)
 - [ ] `^FM` — Multiple Field Origin Locations
@@ -116,13 +116,13 @@ separator are emitted automatically by the renderer and have no factory.
 - [x] `^BU` — UPC-A
 - [x] `^BX` — Data Matrix
 - [x] `^BQ` — QR Code
-- [ ] `^B1` — Code 11
+- [x] `^B1` — Code 11
+- [x] `^B7` — PDF417
+- [x] `^B8` — EAN-8
+- [x] `^B9` — UPC-E
+- [x] `^BA` — Code 93
 - [ ] `^B4` — Code 49
 - [ ] `^B5` — Planet Code
-- [ ] `^B7` — PDF417
-- [ ] `^B8` — EAN-8
-- [ ] `^B9` — UPC-E
-- [ ] `^BA` — Code 93
 - [ ] `^BB` — CODABLOCK
 - [ ] `^BD` — UPS MaxiCode
 - [ ] `^BF` — Micro-PDF417
@@ -156,10 +156,10 @@ separator are emitted automatically by the renderer and have no factory.
 
 - [x] `^LH` — Label Home
 - [x] `^LL` — Label Length
-- [ ] `^LS` — Label Shift
-- [ ] `^LT` — Label Top
+- [x] `^LS` — Label Shift
+- [x] `^LT` — Label Top
+- [x] `^PO` — Print Orientation (invert)
 - [ ] `^LR` — Label Reverse Print
-- [ ] `^PO` — Print Orientation (invert)
 - [ ] `^PM` — Print Mirror Image
 - [ ] `^PF` — Slew given number of dots
 - [ ] `^XF` — Recall format
@@ -170,9 +170,9 @@ separator are emitted automatically by the renderer and have no factory.
 - [x] `^MD` — Media Darkness
 - [x] `^PW` — Print Width
 - [x] `^PQ` — Print Quantity
+- [x] `^MT` — Media Type
 - [ ] `^PR` — Print Rate (speed)
 - [ ] `^MN` — Media Tracking
-- [ ] `^MT` — Media Type
 - [ ] `^MM` — Print Mode
 - [ ] `^MU` — Set Units
 - [ ] `^MF` — Media Feed (power-up/head-close)

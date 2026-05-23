@@ -92,6 +92,42 @@ module internal Render =
                 | UpcA upc ->
                     sb.AppendLine(upc.ToString()) |> ignore
                     loop tail sb
+                | Ean8 b8 ->
+                    sb.AppendLine(b8.ToString()) |> ignore
+                    loop tail sb
+                | UpcE b9 ->
+                    sb.AppendLine(b9.ToString()) |> ignore
+                    loop tail sb
+                | Code93 ba ->
+                    sb.AppendLine(ba.ToString()) |> ignore
+                    loop tail sb
+                | Code11 b1 ->
+                    sb.AppendLine(b1.ToString()) |> ignore
+                    loop tail sb
+                | Pdf417 b7 ->
+                    sb.AppendLine(b7.ToString()) |> ignore
+                    loop tail sb
+                | FieldTypeset ft ->
+                    sb.AppendLine(ft.ToString()) |> ignore
+                    loop tail sb
+                | FieldVariable fv ->
+                    sb.AppendLine(fv.ToString()) |> ignore
+                    loop tail sb
+                | FieldOrientation fw ->
+                    sb.AppendLine(fw.ToString()) |> ignore
+                    loop tail sb
+                | PrintOrientation po ->
+                    sb.AppendLine(po.ToString()) |> ignore
+                    loop tail sb
+                | LabelShift ls ->
+                    sb.AppendLine(ls.ToString()) |> ignore
+                    loop tail sb
+                | LabelTop lt ->
+                    sb.AppendLine(lt.ToString()) |> ignore
+                    loop tail sb
+                | MediaType mt ->
+                    sb.AppendLine(mt.ToString()) |> ignore
+                    loop tail sb
                 | Collection co ->
                     loop (List.append co tail) sb
 
@@ -257,7 +293,7 @@ type Label =
   /// <param name="z">Justification. Values: 0 = left justification, 1 = right justification, 2 = auto justification (script dependent). Default: last accepted ^FW value or ^FW default</param>
   /// <returns>LabelElement.FieldOrigin</returns>
   static member inline FO x y z =
-    { X_Axis = x; Y_Axis = y; Z = z }
+    { FieldOrigin.X_Axis = x; Y_Axis = y; Z = z }
     |> LabelElement.FieldOrigin
 
   /// <summary>
@@ -530,6 +566,170 @@ type Label =
       PrintCheckDigit = e
       Data = FieldData.FieldData fd }
     |> LabelElement.UpcA
+
+  /// <summary>
+  /// EAN-8 Bar Code (^B8)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Ean8</returns>
+  static member inline B8 o h f g (fd: string) =
+    { Ean8.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Ean8
+
+  /// <summary>
+  /// UPC-E Bar Code (^B9)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="e">Print check digit</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.UpcE</returns>
+  static member inline B9 o h f g e (fd: string) =
+    { UpcE.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      PrintCheckDigit = e
+      Data = FieldData.FieldData fd }
+    |> LabelElement.UpcE
+
+  /// <summary>
+  /// Code 93 Bar Code (^BA)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="e">Print check digit</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Code93</returns>
+  static member inline BA o h f g e (fd: string) =
+    { Code93.Orientation = o
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      PrintCheckDigit = e
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Code93
+
+  /// <summary>
+  /// Code 11 Bar Code (^B1)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="e">Check digit</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Code11</returns>
+  static member inline B1 o e h f g (fd: string) =
+    { Code11.Orientation = o
+      CheckDigit = e
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Code11
+
+  /// <summary>
+  /// PDF417 Bar Code (^B7)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Row height (in dots)</param>
+  /// <param name="s">Security (error correction) level. Values: 0 to 8</param>
+  /// <param name="c">Number of data columns. Values: 1 to 30</param>
+  /// <param name="r">Number of rows. Values: 3 to 90</param>
+  /// <param name="t">Truncate right row indicators and stop pattern</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Pdf417</returns>
+  static member inline B7 o h s c r t (fd: string) =
+    { Pdf417.Orientation = o
+      Height = h
+      SecurityLevel = s
+      Columns = c
+      Rows = r
+      Truncate = t
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Pdf417
+
+  /// <summary>
+  /// Field Typeset (^FT)
+  ///
+  /// Like ^FO, but the field is positioned relative to a typeset baseline.
+  /// </summary>
+  /// <param name="x">X-axis location (in dots)</param>
+  /// <param name="y">Y-axis location (in dots)</param>
+  /// <param name="z">Justification</param>
+  /// <returns>LabelElement.FieldTypeset</returns>
+  static member inline FT x y z =
+    { FieldTypeset.X_Axis = x; Y_Axis = y; Z = z }
+    |> LabelElement.FieldTypeset
+
+  /// <summary>
+  /// Field Variable (^FV)
+  ///
+  /// Like ^FD, but the data prints only if a variable field is defined.
+  /// </summary>
+  /// <param name="s">Variable field data</param>
+  /// <returns>LabelElement.FieldVariable</returns>
+  static member inline FV s =
+    FieldVariable.FieldVariable s
+    |> LabelElement.FieldVariable
+
+  /// <summary>
+  /// Field Orientation default (^FW)
+  ///
+  /// Sets the default orientation for fields that follow.
+  /// </summary>
+  /// <param name="o">Default field orientation</param>
+  /// <returns>LabelElement.FieldOrientation</returns>
+  static member inline FW o =
+    FieldOrientation.FieldOrientation o
+    |> LabelElement.FieldOrientation
+
+  /// <summary>
+  /// Print Orientation (^PO)
+  ///
+  /// Inverts the label format 180 degrees (or leaves it normal).
+  /// </summary>
+  /// <param name="p">Print orientation (Normal or Invert)</param>
+  /// <returns>LabelElement.PrintOrientation</returns>
+  static member inline PO p = LabelElement.PrintOrientation p
+
+  /// <summary>
+  /// Label Shift (^LS)
+  /// </summary>
+  /// <param name="a">Left-shift amount applied to the whole label (in dots)</param>
+  /// <returns>LabelElement.LabelShift</returns>
+  static member inline LS a =
+    LabelShift.LabelShift a
+    |> LabelElement.LabelShift
+
+  /// <summary>
+  /// Label Top (^LT)
+  /// </summary>
+  /// <param name="x">Vertical shift of the whole label (in dots)</param>
+  /// <returns>LabelElement.LabelTop</returns>
+  static member inline LT x =
+    LabelTop.LabelTop x
+    |> LabelElement.LabelTop
+
+  /// <summary>
+  /// Media Type (^MT)
+  /// </summary>
+  /// <param name="m">Media type (ThermalTransfer or DirectThermal)</param>
+  /// <returns>LabelElement.MediaType</returns>
+  static member inline MT m = LabelElement.MediaType m
 
   static member inline Collection lst = LabelElement.Collection lst
 
