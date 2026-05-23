@@ -524,6 +524,100 @@ type MediaType =
         | MediaType.ThermalTransfer -> "^MTT"
         | MediaType.DirectThermal -> "^MTD"
 
+/// Field direction for the Field Parameter (^FP) command.
+[<RequireQualifiedAccess>]
+type FieldDirection =
+    /// Horizontal
+    | H
+    /// Vertical
+    | V
+    /// Reverse
+    | R
+    override x.ToString() =
+        match x with
+        | FieldDirection.H -> "H"
+        | FieldDirection.V -> "V"
+        | FieldDirection.R -> "R"
+
+/// Plessey Bar Code (^BP)
+type Plessey =
+    { Orientation: Orientation
+      PrintCheckDigit: YesNo
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      Data: FieldData }
+    override x.ToString() =
+        $"^BP{x.Orientation},{x.PrintCheckDigit},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode}{x.Data}"
+
+/// ANSI Codabar Bar Code (^BK)
+type Codabar =
+    { Orientation: Orientation
+      CheckDigit: YesNo
+      Height: int
+      PrintInterpretationLine: YesNo
+      PrintInterpretationLineAboveCode: YesNo
+      StartCharacter: char
+      StopCharacter: char
+      Data: FieldData }
+    override x.ToString() =
+        $"^BK{x.Orientation},{x.CheckDigit},{x.Height},{x.PrintInterpretationLine},{x.PrintInterpretationLineAboveCode},{x.StartCharacter},{x.StopCharacter}{x.Data}"
+
+/// Aztec Bar Code (^BO)
+type Aztec =
+    { Orientation: Orientation
+      Magnification: int
+      ExtendedChannel: YesNo
+      ErrorControl: int
+      MenuSymbol: YesNo
+      SymbolCount: int
+      Data: FieldData }
+    override x.ToString() =
+        $"^BO{x.Orientation},{x.Magnification},{x.ExtendedChannel},{x.ErrorControl},{x.MenuSymbol},{x.SymbolCount}{x.Data}"
+
+/// Graphic Symbol (^GS)
+type GraphicSymbol =
+    { Orientation: Orientation
+      Height: int
+      Width: int
+      Data: FieldData }
+    override x.ToString() =
+        $"^GS{x.Orientation},{x.Height},{x.Width}{x.Data}"
+
+/// Field Number (^FN)
+type FieldNumber =
+    | FieldNumber of int
+    override x.ToString() =
+        let (FieldNumber n) = x
+        $"^FN{n}"
+
+/// Field Parameter (^FP)
+type FieldParameter =
+    { Direction: FieldDirection
+      Gap: int }
+    override x.ToString() = $"^FP{x.Direction},{x.Gap}"
+
+/// Print Mirror Image (^PM)
+type PrintMirror =
+    | PrintMirror of YesNo
+    override x.ToString() =
+        let (PrintMirror y) = x
+        $"^PM{y}"
+
+/// Slew given number of dots (^PF)
+type Slew =
+    | Slew of int
+    override x.ToString() =
+        let (Slew n) = x
+        $"^PF{n}"
+
+/// Label Reverse Print (^LR)
+type LabelReverse =
+    | LabelReverse of YesNo
+    override x.ToString() =
+        let (LabelReverse y) = x
+        $"^LR{y}"
+
 /// A label element/command.
 /// Used for containing all label commands within a single collection/label.
 type LabelElement =
@@ -566,4 +660,13 @@ type LabelElement =
     | LabelShift of LabelShift
     | LabelTop of LabelTop
     | MediaType of MediaType
+    | Plessey of Plessey
+    | Codabar of Codabar
+    | Aztec of Aztec
+    | GraphicSymbol of GraphicSymbol
+    | FieldNumber of FieldNumber
+    | FieldParameter of FieldParameter
+    | PrintMirror of PrintMirror
+    | Slew of Slew
+    | LabelReverse of LabelReverse
     | Collection of LabelElement list

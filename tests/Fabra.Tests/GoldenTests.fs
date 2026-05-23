@@ -200,3 +200,39 @@ module GoldenTests =
     [<Fact>]
     let ``^MT sets the media type`` () =
         Assert.Contains("^MTD", ZPL.render (Label [ Label.MT MediaType.DirectThermal ]))
+
+    [<Fact>]
+    let ``^BP renders a Plessey barcode`` () =
+        Assert.Contains("^BPN,N,100,Y,N^FD1234^FS", ZPL.render (Label [ Label.BP Orientation.N YesNo.N 100 YesNo.Y YesNo.N "1234" ]))
+
+    [<Fact>]
+    let ``^BK renders an ANSI Codabar barcode`` () =
+        Assert.Contains("^BKN,N,100,Y,N,A,B^FD1234^FS", ZPL.render (Label [ Label.BK Orientation.N YesNo.N 100 YesNo.Y YesNo.N 'A' 'B' "1234" ]))
+
+    [<Fact>]
+    let ``^BO renders an Aztec barcode`` () =
+        Assert.Contains("^BON,5,N,0,N,1^FDAZTEC^FS", ZPL.render (Label [ Label.BO Orientation.N 5 YesNo.N 0 YesNo.N 1 "AZTEC" ]))
+
+    [<Fact>]
+    let ``^GS renders a graphic symbol`` () =
+        Assert.Contains("^GSN,50,50^FDA^FS", ZPL.render (Label [ Label.GS Orientation.N 50 50 "A" ]))
+
+    [<Fact>]
+    let ``^FN renders a field number`` () =
+        Assert.Contains("^FN1", ZPL.render (Label [ Label.FN 1 ]))
+
+    [<Fact>]
+    let ``^FP sets the field parameter`` () =
+        Assert.Contains("^FPH,5", ZPL.render (Label [ Label.FP FieldDirection.H 5 ]))
+
+    [<Fact>]
+    let ``^PM mirrors the print`` () =
+        Assert.Contains("^PMY", ZPL.render (Label [ Label.PM YesNo.Y ]))
+
+    [<Fact>]
+    let ``^PF slews the label`` () =
+        Assert.Contains("^PF24", ZPL.render (Label [ Label.PF 24 ]))
+
+    [<Fact>]
+    let ``^LR reverses the label print`` () =
+        Assert.Contains("^LRY", ZPL.render (Label [ Label.LR YesNo.Y ]))

@@ -44,7 +44,7 @@ Each command follows the same pattern:
 
 ## ZPL command roadmap
 
-Fabra implements about 37 of the ~200 ZPL commands. The original
+Fabra implements about 46 of the ~200 ZPL commands. The original
 easy → hard plan below is complete; the full command set and what remains
 is catalogued under "ZPL command catalogue". Planned additions:
 
@@ -88,8 +88,8 @@ separator are emitted automatically by the renderer and have no factory.
 - [x] `^FT` — Field Typeset
 - [x] `^FV` — Field Variable
 - [x] `^FW` — Field Orientation (default)
-- [ ] `^FN` — Field Number
-- [ ] `^FP` — Field Parameter (character spacing/direction)
+- [x] `^FN` — Field Number
+- [x] `^FP` — Field Parameter (character spacing/direction)
 - [ ] `^FM` — Multiple Field Origin Locations
 - [ ] `^FC` — Field Clock (real-time clock)
 - [ ] `^FL` — Font Linking
@@ -128,11 +128,11 @@ separator are emitted automatically by the renderer and have no factory.
 - [ ] `^BF` — Micro-PDF417
 - [ ] `^BI` — Industrial 2 of 5
 - [ ] `^BJ` — Standard 2 of 5
-- [ ] `^BK` — ANSI Codabar
+- [x] `^BK` — ANSI Codabar
+- [x] `^BO` — Aztec
+- [x] `^BP` — Plessey
 - [ ] `^BL` — LOGMARS
 - [ ] `^BM` — MSI
-- [ ] `^BO` — Aztec
-- [ ] `^BP` — Plessey
 - [ ] `^BR` — GS1 DataBar (RSS)
 - [ ] `^BS` — UPC/EAN extensions
 - [ ] `^BT` — TLC39
@@ -145,7 +145,7 @@ separator are emitted automatically by the renderer and have no factory.
 - [x] `^GD` — Graphic Diagonal Line
 - [x] `^GE` — Graphic Ellipse
 - [x] `^GF` — Graphic Field (see also `Fabra.Imaging`)
-- [ ] `^GS` — Graphic Symbol
+- [x] `^GS` — Graphic Symbol
 - [ ] `^IM` — Image Move
 - [ ] `^IL` — Image Load
 - [ ] `^IS` — Image Save
@@ -159,9 +159,9 @@ separator are emitted automatically by the renderer and have no factory.
 - [x] `^LS` — Label Shift
 - [x] `^LT` — Label Top
 - [x] `^PO` — Print Orientation (invert)
-- [ ] `^LR` — Label Reverse Print
-- [ ] `^PM` — Print Mirror Image
-- [ ] `^PF` — Slew given number of dots
+- [x] `^LR` — Label Reverse Print
+- [x] `^PM` — Print Mirror Image
+- [x] `^PF` — Slew given number of dots
 - [ ] `^XF` — Recall format
 - [ ] `^XB` — Suppress Backfeed
 

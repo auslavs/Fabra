@@ -128,6 +128,33 @@ module internal Render =
                 | MediaType mt ->
                     sb.AppendLine(mt.ToString()) |> ignore
                     loop tail sb
+                | Plessey bp ->
+                    sb.AppendLine(bp.ToString()) |> ignore
+                    loop tail sb
+                | Codabar bk ->
+                    sb.AppendLine(bk.ToString()) |> ignore
+                    loop tail sb
+                | Aztec bo ->
+                    sb.AppendLine(bo.ToString()) |> ignore
+                    loop tail sb
+                | GraphicSymbol gs ->
+                    sb.AppendLine(gs.ToString()) |> ignore
+                    loop tail sb
+                | FieldNumber fn ->
+                    sb.AppendLine(fn.ToString()) |> ignore
+                    loop tail sb
+                | FieldParameter fp ->
+                    sb.AppendLine(fp.ToString()) |> ignore
+                    loop tail sb
+                | PrintMirror pm ->
+                    sb.AppendLine(pm.ToString()) |> ignore
+                    loop tail sb
+                | Slew pf ->
+                    sb.AppendLine(pf.ToString()) |> ignore
+                    loop tail sb
+                | LabelReverse lr ->
+                    sb.AppendLine(lr.ToString()) |> ignore
+                    loop tail sb
                 | Collection co ->
                     loop (List.append co tail) sb
 
@@ -730,6 +757,142 @@ type Label =
   /// <param name="m">Media type (ThermalTransfer or DirectThermal)</param>
   /// <returns>LabelElement.MediaType</returns>
   static member inline MT m = LabelElement.MediaType m
+
+  /// <summary>
+  /// Plessey Bar Code (^BP)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="e">Print check digit</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Plessey</returns>
+  static member inline BP o e h f g (fd: string) =
+    { Plessey.Orientation = o
+      PrintCheckDigit = e
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Plessey
+
+  /// <summary>
+  /// ANSI Codabar Bar Code (^BK)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="e">Check digit (must be N for Codabar)</param>
+  /// <param name="h">Bar code height (in dots)</param>
+  /// <param name="f">Print interpretation line</param>
+  /// <param name="g">Print interpretation line above code</param>
+  /// <param name="k">Start character (A, B, C or D)</param>
+  /// <param name="n">Stop character (A, B, C or D)</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Codabar</returns>
+  static member inline BK o e h f g k n (fd: string) =
+    { Codabar.Orientation = o
+      CheckDigit = e
+      Height = h
+      PrintInterpretationLine = f
+      PrintInterpretationLineAboveCode = g
+      StartCharacter = k
+      StopCharacter = n
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Codabar
+
+  /// <summary>
+  /// Aztec Bar Code (^BO)
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="m">Magnification factor. Values: 1 to 10</param>
+  /// <param name="c">Extended Channel Interpretation code indicator</param>
+  /// <param name="d">Error control / symbol size. Values: 0 = default, 1-99 = error correction %, 101-104 = compact, 201-232 = full range, 300 = rune</param>
+  /// <param name="e">Menu symbol</param>
+  /// <param name="n">Number of symbols for structured append. Values: 1 to 26</param>
+  /// <param name="fd">Field Data</param>
+  /// <returns>LabelElement.Aztec</returns>
+  static member inline BO o m c d e n (fd: string) =
+    { Aztec.Orientation = o
+      Magnification = m
+      ExtendedChannel = c
+      ErrorControl = d
+      MenuSymbol = e
+      SymbolCount = n
+      Data = FieldData.FieldData fd }
+    |> LabelElement.Aztec
+
+  /// <summary>
+  /// Graphic Symbol (^GS)
+  ///
+  /// Selects a built-in symbol; the symbol characters (A-E) are supplied
+  /// via the following ^FD.
+  /// </summary>
+  /// <param name="o">Orientation</param>
+  /// <param name="h">Symbol height (in dots)</param>
+  /// <param name="w">Symbol width (in dots)</param>
+  /// <param name="fd">Field Data (symbol selector characters)</param>
+  /// <returns>LabelElement.GraphicSymbol</returns>
+  static member inline GS o h w (fd: string) =
+    { GraphicSymbol.Orientation = o
+      Height = h
+      Width = w
+      Data = FieldData.FieldData fd }
+    |> LabelElement.GraphicSymbol
+
+  /// <summary>
+  /// Field Number (^FN)
+  ///
+  /// Numbers a field for use with stored formats (^XF) or variable data.
+  /// </summary>
+  /// <param name="n">Field number</param>
+  /// <returns>LabelElement.FieldNumber</returns>
+  static member inline FN n =
+    FieldNumber.FieldNumber n
+    |> LabelElement.FieldNumber
+
+  /// <summary>
+  /// Field Parameter (^FP)
+  ///
+  /// Sets the field direction and inter-character gap for the field.
+  /// </summary>
+  /// <param name="d">Field direction (H = horizontal, V = vertical, R = reverse)</param>
+  /// <param name="g">Additional inter-character gap (in dots)</param>
+  /// <returns>LabelElement.FieldParameter</returns>
+  static member inline FP d g =
+    { FieldParameter.Direction = d; Gap = g }
+    |> LabelElement.FieldParameter
+
+  /// <summary>
+  /// Print Mirror Image (^PM)
+  /// </summary>
+  /// <param name="y">Mirror the entire label</param>
+  /// <returns>LabelElement.PrintMirror</returns>
+  static member inline PM y =
+    PrintMirror.PrintMirror y
+    |> LabelElement.PrintMirror
+
+  /// <summary>
+  /// Slew given number of dots (^PF)
+  ///
+  /// Advances the label a given number of dots without printing.
+  /// </summary>
+  /// <param name="n">Number of dots to slew</param>
+  /// <returns>LabelElement.Slew</returns>
+  static member inline PF n =
+    Slew.Slew n
+    |> LabelElement.Slew
+
+  /// <summary>
+  /// Label Reverse Print (^LR)
+  ///
+  /// Reverses the print of the whole label (black on white becomes white
+  /// on black).
+  /// </summary>
+  /// <param name="y">Enable label reverse print</param>
+  /// <returns>LabelElement.LabelReverse</returns>
+  static member inline LR y =
+    LabelReverse.LabelReverse y
+    |> LabelElement.LabelReverse
 
   static member inline Collection lst = LabelElement.Collection lst
 
