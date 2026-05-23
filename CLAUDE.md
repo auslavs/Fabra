@@ -44,8 +44,9 @@ Each command follows the same pattern:
 
 ## ZPL command roadmap
 
-Fabra implements roughly 10 of the ~200 ZPL commands — the subset needed
-for simple static labels. Planned additions, ordered easy → hard:
+Fabra implements about 25 of the ~200 ZPL commands. The original
+easy → hard plan below is complete; the full command set and what remains
+is catalogued under "ZPL command catalogue". Planned additions:
 
 - [x] `^FX` — Comment. New `Comment` type; renders `^FX{text}^FS`.
 - [x] `^LH` — Label Home. New `LabelHome` record (x, y); renders `^LH{x},{y}`.
@@ -64,6 +65,158 @@ for simple static labels. Planned additions, ordered easy → hard:
   - [x] Phase 2: image-to-bitmap converter in the `Fabra.Imaging` package
         (`ImageField.fromFile`/`fromStream`); luminance threshold (default)
         or Floyd–Steinberg dithering.
+
+## ZPL command catalogue
+
+Coverage of the ZPL II command set grouped by family. `[x]` = implemented,
+`[ ]` = not yet implemented. This lists the major commands and is not
+guaranteed exhaustive; consult the Zebra ZPL II Programming Guide for the
+authoritative spec and parameter details. New commands follow the five
+steps in "Adding a ZPL command" above.
+
+The `^XA`/`^XZ` start/end-format wrappers and the trailing `^FS` field
+separator are emitted automatically by the renderer and have no factory.
+
+### Fields & formatting
+
+- [x] `^FD` — Field Data
+- [x] `^FO` — Field Origin
+- [x] `^FB` — Field Block
+- [x] `^FR` — Field Reverse Print
+- [x] `^FH` — Field Hexadecimal Indicator
+- [x] `^FX` — Comment
+- [ ] `^FT` — Field Typeset
+- [ ] `^FV` — Field Variable
+- [ ] `^FW` — Field Orientation (default)
+- [ ] `^FN` — Field Number
+- [ ] `^FP` — Field Parameter (character spacing/direction)
+- [ ] `^FM` — Multiple Field Origin Locations
+- [ ] `^FC` — Field Clock (real-time clock)
+- [ ] `^FL` — Font Linking
+- [ ] `^CO` — Cache On
+
+### Fonts & text
+
+- [x] `^A` — Scalable/bitmap font
+- [x] `^CF` — Change Alphanumeric Default Font
+- [x] `^CI` — Change International Font/Encoding
+- [ ] `^A@` — Use named font
+- [ ] `^CW` — Font Identifier
+- [ ] `^SL` — Set Mode/Language (RTC)
+- [ ] `~DB` / `~DS` — Download bitmap / scalable font
+- [ ] `^TB` — Text Block
+
+### Bar codes
+
+- [x] `^BY` — Bar Code Field Default
+- [x] `^BC` — Code 128
+- [x] `^B2` — Interleaved 2 of 5
+- [x] `^B3` — Code 39
+- [x] `^BE` — EAN-13
+- [x] `^BU` — UPC-A
+- [x] `^BX` — Data Matrix
+- [x] `^BQ` — QR Code
+- [ ] `^B1` — Code 11
+- [ ] `^B4` — Code 49
+- [ ] `^B5` — Planet Code
+- [ ] `^B7` — PDF417
+- [ ] `^B8` — EAN-8
+- [ ] `^B9` — UPC-E
+- [ ] `^BA` — Code 93
+- [ ] `^BB` — CODABLOCK
+- [ ] `^BD` — UPS MaxiCode
+- [ ] `^BF` — Micro-PDF417
+- [ ] `^BI` — Industrial 2 of 5
+- [ ] `^BJ` — Standard 2 of 5
+- [ ] `^BK` — ANSI Codabar
+- [ ] `^BL` — LOGMARS
+- [ ] `^BM` — MSI
+- [ ] `^BO` — Aztec
+- [ ] `^BP` — Plessey
+- [ ] `^BR` — GS1 DataBar (RSS)
+- [ ] `^BS` — UPC/EAN extensions
+- [ ] `^BT` — TLC39
+- [ ] `^BZ` — POSTNET
+
+### Graphics
+
+- [x] `^GB` — Graphic Box
+- [x] `^GC` — Graphic Circle
+- [x] `^GD` — Graphic Diagonal Line
+- [x] `^GE` — Graphic Ellipse
+- [x] `^GF` — Graphic Field (see also `Fabra.Imaging`)
+- [ ] `^GS` — Graphic Symbol
+- [ ] `^IM` — Image Move
+- [ ] `^IL` — Image Load
+- [ ] `^IS` — Image Save
+- [ ] `~DG` / `~DY` — Download graphic / objects
+- [ ] `^XG` — Recall graphic
+
+### Label & format setup
+
+- [x] `^LH` — Label Home
+- [x] `^LL` — Label Length
+- [ ] `^LS` — Label Shift
+- [ ] `^LT` — Label Top
+- [ ] `^LR` — Label Reverse Print
+- [ ] `^PO` — Print Orientation (invert)
+- [ ] `^PM` — Print Mirror Image
+- [ ] `^PF` — Slew given number of dots
+- [ ] `^XF` — Recall format
+- [ ] `^XB` — Suppress Backfeed
+
+### Media & printer configuration
+
+- [x] `^MD` — Media Darkness
+- [x] `^PW` — Print Width
+- [x] `^PQ` — Print Quantity
+- [ ] `^PR` — Print Rate (speed)
+- [ ] `^MN` — Media Tracking
+- [ ] `^MT` — Media Type
+- [ ] `^MM` — Print Mode
+- [ ] `^MU` — Set Units
+- [ ] `^MF` — Media Feed (power-up/head-close)
+- [ ] `^ML` — Maximum Label Length
+- [ ] `^SS` — Set Media Sensors
+- [ ] `^CM` — Change Memory Letter Designation
+- [ ] `^CC` / `~CC` — Change Caret prefix
+- [ ] `^CD` / `~CD` — Change Delimiter
+- [ ] `^CT` / `~CT` — Change Tilde prefix
+
+### Serialization, clock & data
+
+- [ ] `^SN` — Serialization Data
+- [ ] `^SF` — Serialization Field
+- [ ] `^ST` — Set Date and Time (RTC)
+- [ ] `^SE` — Select Encoding table
+
+### Control (`~`) commands
+
+- [ ] `~SD` — Set Darkness
+- [ ] `~JA` — Cancel All
+- [ ] `~JL` — Set Label Length
+- [ ] `~JR` — Power-On Reset
+- [ ] `~JS` — Change Backfeed Sequence
+- [ ] `~JX` — Cancel Current Format
+- [ ] `~PS` / `~PP` — Print Start / Pause
+- [ ] `~HS` — Host Status Return
+- [ ] `~HI` — Host Identification
+- [ ] `~HM` — Host Memory Status
+- [ ] `~WC` — Print Configuration Label
+
+### RFID (`^R` / `~R`)
+
+- [ ] `^RS` — RFID Setup
+- [ ] `^RF` — RFID Read/Write
+- [ ] `^RB` — Define EPC Data Structure
+- [ ] `^RI` — Get RFID Tag ID
+- [ ] `^RM` — Enable RFID Motion
+- [ ] `^RR` — Specify RFID Retries
+- [ ] `^RT` — Read RFID Tag
+- [ ] `^RW` — Set RFID Read/Write Power
+- [ ] `^RZ` — Set RFID Tag Password
+- [ ] `~RV` — Report RFID Validation
+- [ ] `^WV` — Verify RFID Write
 
 ## Open design items
 
